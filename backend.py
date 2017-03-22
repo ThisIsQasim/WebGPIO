@@ -42,7 +42,7 @@ def hello():
 	else:
 		pin4I= "/static/L1.png"
 	templateData = {
-		'title' : pin1s,
+		'title' : 'WebGPIO',
 		'time': timeString,
 		'url1': pin1I,
 		'url2': pin2I,
