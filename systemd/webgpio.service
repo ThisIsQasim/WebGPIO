@@ -1,0 +1,12 @@
+[Unit]
+Description=pin1
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python /home/pi/WebGPIO/backend.py
+KillMode=process
+Restart=on-failure
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
