@@ -3,7 +3,7 @@ A simple web UI for controlling the GPIO pins on a Raspberry Pi. Just define you
 
     python backend.py
 
-Make sure you have flask installed
+Make sure you have flask installed.
 
     sudo apt-get install python-pip
-    pip install flask
+    sudo pip install flask
