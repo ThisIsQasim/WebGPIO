@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+   <head>
+      <title>{{ title }}</title>
+       <style type="text/css">
+           .title{
+               font-family:HelveticaNeue-UltraLight;
+               font-size:300%;
+               font-weight:100;
+               color:#F7F7F7;
+           }
+       .subtitle{
+           font-family:HelveticaNeue-UltraLight;
+           font-size:130%;
+           color:#F7F7F7;
+       }
+       .pin{
+           width:152px;
+           height:152px;
+           padding: 3px 3px 3px 3px;
+       }
+       .footer{
+           font-family:HelveticaNeue-UltraLight;
+           font-size:100%;
+           color:#F7F7F7;
+           position: absolute;
+           right: 0;
+           bottom: 0;
+           left: 0;
+           padding: 1rem;
+       }
+       @media only screen
+       and (min-device-width : 320px)
+       and (max-device-width : 568px) {
+           .title{
+               font-family:HelveticaNeue-UltraLight;
+               font-size:600%;
+               font-weight:100;
+               color:#F7F7F7;
+           }
+           .subtitle{
+               font-family:HelveticaNeue-UltraLight;
+               font-size:300%;
+               color:#F7F7F7;
+           }
+           .pin{
+               width:304px;
+               height:304px;
+               padding: 20px 20px 20px 20px;
+           }
+           .footer{
+               font-family:HelveticaNeue-UltraLight;
+               font-size:200%;
+               color:#F7F7F7;
+               position: absolute;
+               right: 0;
+               bottom: 0;
+               left: 0;
+               padding: 2rem;
+           }
+       }
+           </style>
+   </head>
+
+   <body style="background-color:#000000">
+       <div align="center">
+           <p class="title">Welcome</p>
+           <p class="subtitle">The future starts today</p><br>
+
+        <input class="pin" type="image" src= {{url1 }} onclick="self.location.href='/pin1/'">
+        <input class="pin" type="image" src= {{url2 }} onclick="self.location.href='/pin2/'">
+        <input class="pin" type="image" src= {{url3 }} onclick="self.location.href='/pin3/'">
+        <input class="pin" type="image" src= {{url4 }} onclick="self.location.href='/pin4/'">
+
+        <p class="footer">Qasim -- {{ time }}</p>
+
+    </div>
+   </body>
+</html>
