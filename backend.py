@@ -49,7 +49,7 @@ def hello():
 	}
 	return render_template('main.html', **templateData)
 
-@app.route("/pin/<switchNumber>/")
+@app.route("/pin/<int:switchNumber>/")
 def toggle(switchNumber):
 	print(switchNumber)
 	state= not GPIO.input(outPin[switchNumber])
