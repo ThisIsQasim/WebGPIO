@@ -34,7 +34,7 @@ def main():
 	templateData = {
 		'title' : 'WebGPIO',
 		'time': timeString,
-		'button' : buttonList
+		'buttons' : buttonList
 	}
 	return render_template('main.html', **templateData)
 
