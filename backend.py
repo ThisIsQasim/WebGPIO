@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, Markup
 import RPi.GPIO as GPIO
 import subprocess
 import os
@@ -11,47 +11,36 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 outPin = [6, 13, 19, 26]
-
+pinName= ['Fan', 'Front Light', 'Back Light', 'Bright Light']
 
 GPIO.setup(outPin, GPIO.OUT, initial=GPIO.HIGH)
 
 @app.route("/")
-def hello():
+def main():
 	now = datetime.datetime.now()
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
-	pin1s= not GPIO.input(outPin[0])
-	pin2s= not GPIO.input(outPin[1])
-	pin3s= not GPIO.input(outPin[2])
-	pin4s= not GPIO.input(outPin[3])
-	if pin1s is False:
-		pin1I= "/static/Fan.png"
-	else:
-		pin1I= "/static/Fan1.png"
-	if pin2s is False:
-		pin2I= "/static/FL.png"
-	else:
-		pin2I= "/static/FL1.png"
-	if pin3s is False:
-		pin3I= "/static/BL.png"
-	else:
-		pin3I= "/static/BL1.png"
-	if pin4s is False:
-		pin4I= "/static/L.png"
-	else:
-		pin4I= "/static/L1.png"
+	pins = []
+	for i in range(len(outPin)):
+		if GPIO.input(outPin[i]) is 1:
+			pins.append('containerOff')
+		else:
+			pins.append('containerOn')
+	passer = ''
+	for j in range(len(outPin)):
+		pinHtmlName = pinName[j].replace(" ", "<br>")
+		passer = passer + "<button class='%s' formaction='/pin/%d/'>%s</button>" % (pins[j], j, pinHtmlName)
+
+	shit = Markup(passer)
 	templateData = {
 		'title' : 'WebGPIO',
 		'time': timeString,
-		'url1': pin1I,
-		'url2': pin2I,
-		'url3': pin3I,
-		'url4': pin4I
+		'button' : shit
 	}
 	return render_template('main.html', **templateData)
 
 @app.route("/pin/<int:switchNumber>/")
 def toggle(switchNumber):
-	print(switchNumber)
+	#print(switchNumber)
 	state= not GPIO.input(outPin[switchNumber])
 	GPIO.output(outPin[switchNumber],state)
 	#subprocess.call(['./echo.sh'], shell=True)
