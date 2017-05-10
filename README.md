@@ -1,5 +1,5 @@
 # WebGPIO
-A simple web UI for controlling the GPIO pins on a Raspberry Pi. Just define your pins as p1-p4 in backend.py and execute 
+A simple web UI for controlling the GPIO pins on a Raspberry Pi. Just define pin numbers(BCM) in outPin array and pin names in pinName array in backend.py and execute 
 
     python backend.py
 
