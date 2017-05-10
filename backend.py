@@ -19,22 +19,22 @@ GPIO.setup(outPin, GPIO.OUT, initial=GPIO.HIGH)
 def main():
 	now = datetime.datetime.now()
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
-	pins = []
+	pinState = []
 	for i in range(len(outPin)):
 		if GPIO.input(outPin[i]) is 1:
-			pins.append('containerOff')
+			pinState.append('containerOff')
 		else:
-			pins.append('containerOn')
+			pinState.append('containerOn')
 	passer = ''
 	for j in range(len(outPin)):
 		pinHtmlName = pinName[j].replace(" ", "<br>")
-		passer = passer + "<button class='%s' formaction='/pin/%d/'>%s</button>" % (pins[j], j, pinHtmlName)
+		passer = passer + "<button class='%s' formaction='/pin/%d/'>%s</button>" % (pinState[j], j, pinHtmlName)
 
-	shit = Markup(passer)
+	buttonList = Markup(passer)
 	templateData = {
 		'title' : 'WebGPIO',
 		'time': timeString,
-		'button' : shit
+		'button' : buttonList
 	}
 	return render_template('main.html', **templateData)
 
