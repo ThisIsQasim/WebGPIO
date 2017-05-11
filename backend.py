@@ -10,7 +10,7 @@ app = Flask(__name__)
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-outPin = [6, 13, 19, 26]
+outPin = [[6, 13, 19, 26]]
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
 
@@ -18,7 +18,7 @@ GPIO.setup(outPin, GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
 	if roomNumber == 0:
-		if GPIO.input(outPin[accNumber]) is 1:
+		if GPIO.input(outPin[roomNumber][accNumber]) is 1:
 			return 'containerOff'
 		else:
 			return 'containerOn'
@@ -49,8 +49,8 @@ def main():
 @app.route("/pin/<int:roomNumber>/<int:accNumber>/")
 def toggle(roomNumber, accNumber):
 	if roomNumber == 0:
-		state= not GPIO.input(outPin[accNumber])
-		GPIO.output(outPin[accNumber],state)
+		state= not GPIO.input(outPin[roomNumber][accNumber])
+		GPIO.output(outPin[roomNumber][accNumber],state)
 		#subprocess.call(['./echo.sh'], shell=True)
 	elif roomNumber > 0:
 		#action for other rooms
