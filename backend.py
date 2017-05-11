@@ -11,24 +11,32 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
 outPin = [6, 13, 19, 26]
-pinName= ['Fan', 'Front Light', 'Back Light', 'Bright Light']
+roomName = ['Bed Room', 'Server Room']
+accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
 
 GPIO.setup(outPin, GPIO.OUT, initial=GPIO.HIGH)
+
+def accState(roomNumber, accNumber):
+	if roomNumber == 0:
+		if GPIO.input(outPin[accNumber]) is 1:
+			return 'containerOff'
+		else:
+			return 'containerOn'
+	elif roomNumber > 0:
+		#get the state of other accesories in other rooms
+		return 'containerOff'
 
 @app.route("/")
 def main():
 	now = datetime.datetime.now()
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
-	pinState = []
-	for i in range(len(outPin)):
-		if GPIO.input(outPin[i]) is 1:
-			pinState.append('containerOff')
-		else:
-			pinState.append('containerOn')
+
 	passer = ''
-	for j in range(len(outPin)):
-		pinHtmlName = pinName[j].replace(" ", "<br>")
-		passer = passer + "<button class='%s' formaction='/pin/%d/'>%s</button>" % (pinState[j], j, pinHtmlName)
+	for i in range(len(roomName)):
+		passer = passer + "<p class='roomtitle'>%s</p>" % (roomName[i])
+		for j in range(len(accName[i])):
+			pinHtmlName = accName[i][j].replace(" ", "<br>")
+			passer = passer + "<button class='%s' formaction='/pin/%d/%d/'>%s</button>" % (accState(i,j), i, j, pinHtmlName)
 
 	buttonList = Markup(passer)
 	templateData = {
@@ -38,12 +46,17 @@ def main():
 	}
 	return render_template('main.html', **templateData)
 
-@app.route("/pin/<int:switchNumber>/")
-def toggle(switchNumber):
-	#print(switchNumber)
-	state= not GPIO.input(outPin[switchNumber])
-	GPIO.output(outPin[switchNumber],state)
-	#subprocess.call(['./echo.sh'], shell=True)
+@app.route("/pin/<int:roomNumber>/<int:accNumber>/")
+def toggle(roomNumber, accNumber):
+	if roomNumber == 0:
+		state= not GPIO.input(outPin[accNumber])
+		GPIO.output(outPin[accNumber],state)
+		#subprocess.call(['./echo.sh'], shell=True)
+	elif roomNumber > 0:
+		#action for other rooms
+		if accNumber == 0:
+			subprocess.call(['./echo.sh'], shell=True)
+	print(roomNumber, accNumber)
 	return redirect("/", code=302)
 
 
