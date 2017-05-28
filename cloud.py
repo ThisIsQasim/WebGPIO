@@ -78,12 +78,12 @@ def toggle(roomNumber, accNumber, state):
 	return redirect("/", code=302)
 
 
-@app.route("/ip/<string:lanIP>/<string:wanIP>/")
-def registerIP(lanIP, wanIP):
+@app.route("/ip/<string:lanIP>/")
+def registerIP(lanIP):
 	global privateIP
 	privateIP=lanIP
 	global publicIP
-	publicIP=wanIP
+	publicIP=request.remote_addr
 	print(privateIP, publicIP)
 	return "IP addresses registered"
 
@@ -91,6 +91,7 @@ def registerIP(lanIP, wanIP):
 def registerState(roomNumber, accNumber, state):
 	global accState
 	accState[roomNumber][accNumber]=state
+	print(roomNumber, accNumber, state)
 	return "State registered"
 
 
