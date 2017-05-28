@@ -12,19 +12,30 @@ outPin = [[6, 13, 19, 26]]
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
 
+accState=[]
+
+for i in range(len(roomName)):
+	print("Initializing room: %d" % (i+1))
+	accState.append([])
+	for j in range(len(accName[i])):
+		accState[i].append(0)
+		print("Initializing accesory: %d" % (j+1))
 
 privateIP= "0.0.0.0"
 publicIP= "0.0.0.0"
 
-def accState(roomNumber, accNumber):
-	if roomNumber == 0:
-		if GPIO.input(outPin[roomNumber][accNumber]) is 1:
-			return 'containerOff'
-		else:
-			return 'containerOn'
-	elif roomNumber > 0:
-		#get the state of other accesories in other rooms
+def getState(roomNumber, accNumber):
+	state=accState[roomNumber][accNumber]
+	return state
+
+def setState(roomNumber, accNumber, newState):
+	return 0
+
+def containerState(roomNumber, accNumber):
+	if accState[roomNumber][accNumber] is 0:
 		return 'containerOff'
+	else:
+		return 'containerOn'
 
 @app.route("/")
 def main():
@@ -46,7 +57,7 @@ def main():
 			passer = passer + "<p class='roomtitle'>%s</p>" % (roomName[i])
 			for j in range(len(accName[i])):
 				pinHtmlName = accName[i][j].replace(" ", "<br>")
-				passer = passer + "<button class='%s' formaction='/pin/%d/%d/'>%s</button>" % (accState(i,j), i, j, pinHtmlName)
+				passer = passer + "<button class='%s' formaction='/pin/%d/%d/%d/'>%s</button>" % (containerState(i,j), i, j, accState[i][j], pinHtmlName)
 
 		buttonGrid = Markup(passer)
 		templateData = {
@@ -57,21 +68,17 @@ def main():
 		return render_template('main.html', **templateData)
 
 
-@app.route("/pin/<int:roomNumber>/<int:accNumber>/")
-def toggle(roomNumber, accNumber):
-	if roomNumber == 0:
-		state= not GPIO.input(outPin[roomNumber][accNumber])
-		GPIO.output(outPin[roomNumber][accNumber],state)
+@app.route("/pin/<int:roomNumber>/<int:accNumber>/<int:state>/")
+def toggle(roomNumber, accNumber, state):
+	state= 1 - state
+	#setState(roomNumber, accNumber, state)
+	registerState(roomNumber, accNumber, state)
 	#subprocess.call(['./echo.sh'], shell=True)
-	elif roomNumber > 0:
-		#action for other rooms
-		if accNumber == 0:
-			subprocess.call(['./echo.sh'], shell=True)
-	print(roomNumber, accNumber)
+	print(roomNumber, accNumber, state)
 	return redirect("/", code=302)
 
 
-@app.route("/IP/<string:lanIP>/<string:wanIP>/")
+@app.route("/ip/<string:lanIP>/<string:wanIP>/")
 def registerIP(lanIP, wanIP):
 	global privateIP
 	privateIP=lanIP
@@ -80,6 +87,11 @@ def registerIP(lanIP, wanIP):
 	print(privateIP, publicIP)
 	return "IP addresses registered"
 
+@app.route("/state/<int:roomNumber>/<int:accNumber>/<int:state>/")
+def registerState(roomNumber, accNumber, state):
+	global accState
+	accState[roomNumber][accNumber]=state
+	return "State registered"
 
 
 if __name__ == "__main__":
