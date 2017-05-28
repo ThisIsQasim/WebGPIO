@@ -14,7 +14,7 @@ outPin = [[6, 13, 19, 26]]
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
 
-GPIO.setup(outPin, GPIO.OUT, initial=GPIO.HIGH)
+GPIO.setup(outPin[0], GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
 	if roomNumber == 0:
@@ -38,11 +38,11 @@ def main():
 			pinHtmlName = accName[i][j].replace(" ", "<br>")
 			passer = passer + "<button class='%s' formaction='/pin/%d/%d/'>%s</button>" % (accState(i,j), i, j, pinHtmlName)
 
-	buttonList = Markup(passer)
+	buttonGrid = Markup(passer)
 	templateData = {
 		'title' : 'WebGPIO',
 		'time': timeString,
-		'buttons' : buttonList
+		'buttons' : buttonGrid
 	}
 	return render_template('main.html', **templateData)
 
