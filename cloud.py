@@ -38,8 +38,12 @@ def containerState(roomNumber, accNumber):
 
 @app.route("/")
 def main():
-	print(request.remote_addr, publicIP)
-	if request.remote_addr == publicIP:
+	if request.headers.getlist("X-Forwarded-For"):
+		remoteIP = request.headers.getlist("X-Forwarded-For")[0]
+	else:
+		remoteIP = request.remote_addr
+	print(remoteIP, publicIP)
+	if remoteIP == publicIP:
 		embededGrid="<iframe class='frame' src='http://%s:%d'> Use a modern browser please??? <iframe/>" % (privateIP, 8000)
 		markedUpURL=Markup(embededGrid)
 		templateData = {
@@ -79,10 +83,14 @@ def toggle(roomNumber, accNumber, state):
 
 @app.route("/ip/<string:lanIP>/")
 def registerIP(lanIP):
+	if request.headers.getlist("X-Forwarded-For"):
+		remoteIP = request.headers.getlist("X-Forwarded-For")[0]
+	else:
+		remoteIP = request.remote_addr
 	global privateIP
 	privateIP=lanIP
 	global publicIP
-	publicIP=request.remote_addr
+	publicIP=remoteIP
 	print(privateIP, publicIP)
 	return "IP addresses registered"
 
