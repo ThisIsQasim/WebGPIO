@@ -7,12 +7,10 @@ curl http://{$CLOUDHOST}/ip/{$LANADDRESS}/
 
 while true; do 
 
-ip monitor address | while read  -t 60 output
+ip monitor address | while read  -t 120 output
 do
  if echo $output | grep -v Deleted | grep eth0 | awk '{ print $4}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"; then
- NEWADDRESS=$(echo $output | grep -v Deleted | grep eth0 | awk '{ print $4}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
- LANADDRESS=$NEWADDRESS
- curl http://{$CLOUDHOST}/ip/{$LANADDRESS}/
+ LANADDRESS=$(echo $output | grep -v Deleted | grep eth0 | awk '{ print $4}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
  exit 0
  fi
 done
