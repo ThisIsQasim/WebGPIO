@@ -1,5 +1,4 @@
 from flask import Flask, render_template, redirect, request, Markup
-import RPi.GPIO as GPIO
 import subprocess
 import os
 import datetime
