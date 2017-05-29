@@ -21,6 +21,7 @@
 	  <meta name="msapplication-TileColor" content="#ffffff">
 	  <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
 	  <meta name="theme-color" content="#ffffff">
+	  <!-- meta name="viewport" content="width=device-width, initial-scale=0.4" -->
 	  <!-- meta name="apple-mobile-web-app-capable" content="yes">
 	  <meta name="apple-mobile-web-app-status-bar-style" content="black" -->
 	  <style type="text/css">
@@ -33,9 +34,7 @@
 		}
 	  .frame{
 	  border: 0;
-	  width: 100%;
-	  height: 100%;
-	  position: fixed;
+	  position: relative;
 	  right: 0;
 	  bottom: 0;
 	  left: 0;
@@ -44,8 +43,8 @@
 	  font-size:300%;
 	  font-weight:100;
 	  color:#F7F7F7;
+	  overflow: auto;
 	  -webkit-overflow-scrolling: touch;
-	  overflow-y: scroll;
 	  }
 	  .frame iframe {
 		  height: 100%;
