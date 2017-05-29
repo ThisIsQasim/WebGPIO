@@ -14,7 +14,8 @@ outPin = [[6, 13, 19, 26]]
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
 
-GPIO.setup(outPin[0], GPIO.OUT, initial=GPIO.HIGH)
+for i in range(len(outPin))
+	GPIO.setup(outPin[i], GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
 	if roomNumber == 0:
