@@ -43,7 +43,7 @@ def main():
 		embededGrid="<iframe class='frame' src='http://%s:%d'> Use a modern browser please??? <iframe/>" % (privateIP, 8000)
 		markedUpURL=Markup(embededGrid)
 		templateData = {
-			'title' : 'WebGPIO',
+			'title' : 'EasyOn',
 			'buttons' : embededGrid
 		}
 		return render_template('frame.html', **templateData)
@@ -60,7 +60,7 @@ def main():
 
 		buttonGrid = Markup(passer)
 		templateData = {
-			'title' : 'WebGPIO',
+			'title' : 'EasyOn',
 			'time': timeString,
 			'buttons' : buttonGrid
 			}

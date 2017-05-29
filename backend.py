@@ -40,7 +40,7 @@ def main():
 
 	buttonGrid = Markup(passer)
 	templateData = {
-		'title' : 'WebGPIO',
+		'title' : 'EasyOn',
 		'time': timeString,
 		'buttons' : buttonGrid
 	}
