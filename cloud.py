@@ -44,7 +44,7 @@ def main():
 		remoteIP = request.remote_addr
 	print(remoteIP, publicIP)
 	if remoteIP == publicIP:
-		embededGrid="<iframe class='frame' src='http://%s:%d'> Use a modern browser please??? <iframe/>" % (privateIP, 8000)
+		embededGrid="<div class='frame'> <iframe frameBorder='0' src='http://%s:%d'> Use a modern browser please??? <iframe/></div>" % (privateIP, 8000)
 		markedUpURL=Markup(embededGrid)
 		templateData = {
 			'title' : 'EasyOn',
