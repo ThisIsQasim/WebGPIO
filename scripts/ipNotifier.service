@@ -1,14 +1,15 @@
 [Unit]
-Description=WebGPIO
+Description=ipNotifier
 After=multi-user.target
 
 [Service]
 Type=simple
 User=pi
-ExecStart=/usr/bin/python /home/pi/WebGPIO/backend.py
+ExecStart=/bin/bash /home/pi/WebGPIO/scripts/ipNotifier.sh
 KillMode=process
 Restart=on-failure
 RestartSec=60s
 
 [Install]
 WantedBy=multi-user.target
+
