@@ -55,8 +55,7 @@ def toggle(roomNumber, accNumber):
 		#subprocess.call(['./echo.sh'], shell=True)
 	else:
 		#action for other rooms
-		if accNumber == 0:
-			subprocess.call(['./echo.sh'], shell=True)
+		subprocess.call(['./echo.sh'], shell=True)
 	print(roomNumber, accNumber)
 	return redirect("/", code=302)
 
