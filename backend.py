@@ -7,12 +7,12 @@ import time
 app = Flask(__name__)
 
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-
-outPin = [[6, 13, 19, 26]]
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
+outPin = [[6, 13, 19, 26],[]]
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 for i in range(len(outPin)):
 	GPIO.setup(outPin[i], GPIO.OUT, initial=GPIO.HIGH)
@@ -49,11 +49,11 @@ def main():
 
 @app.route("/pin/<int:roomNumber>/<int:accNumber>/")
 def toggle(roomNumber, accNumber):
-	if roomNumber == 0:
+	if len(outPin[roomNumber]) != 0:
 		state= not GPIO.input(outPin[roomNumber][accNumber])
 		GPIO.output(outPin[roomNumber][accNumber],state)
 		#subprocess.call(['./echo.sh'], shell=True)
-	elif roomNumber > 0:
+	else:
 		#action for other rooms
 		if accNumber == 0:
 			subprocess.call(['./echo.sh'], shell=True)
