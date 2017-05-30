@@ -7,18 +7,19 @@ curl http://{$CLOUDHOST}/ip/{$LANADDRESS}/
 
 while true; do 
 
-ip monitor address | while read -t 120 output
+timeout 120 ip monitor address | while read output
 do
  if echo $output | grep -v Deleted | grep eth0 | awk '{ print $4}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"; then
  LANADDRESS=$(echo $output | grep -v Deleted | grep eth0 | awk '{ print $4}' | grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
- exit 0
+ curl http://{$CLOUDHOST}/ip/{$LANADDRESS}/
  fi
 done
 
 PUBLICIP=$(curl http://icanhazip.com)
 
-if echo $PUBLICIP | grep $WANADDRESS; then
+if [ "$PUBLICIP" != "$WANADDRESS" ]; then
 curl http://{$CLOUDHOST}/ip/{$LANADDRESS}/
+WANADDRESS=$PUBLICIP
 fi
 
 done
