@@ -6,7 +6,9 @@ After=multi-user.target
 Type=simple
 User=pi
 ExecStart=/home/pi/WebGPIO/scripts/ipNotifier.sh
-KillMode=process
+ExecStop=/usr/bin/pkill timeout
+ExecStop=/usr/bin/pkill ipNotifier.sh
+TimeoutStopSec=30
 Restart=on-failure
 RestartSec=60s
 
