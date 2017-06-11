@@ -1,25 +1,58 @@
 <!DOCTYPE html>
    <head>
       <title>{{ title }}</title>
-       <style type="text/css">
-           .title{
-               font-family:HelveticaNeue-UltraLight;
+	  <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+	  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+	  <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-icon-57x57.png">
+	  <link rel="apple-touch-icon" sizes="60x60" href="/static/apple-icon-60x60.png">
+	  <link rel="apple-touch-icon" sizes="72x72" href="/static/apple-icon-72x72.png">
+	  <link rel="apple-touch-icon" sizes="76x76" href="/static/apple-icon-76x76.png">
+	  <link rel="apple-touch-icon" sizes="114x114" href="/static/apple-icon-114x114.png">
+	  <link rel="apple-touch-icon" sizes="120x120" href="/static/apple-icon-120x120.png">
+	  <link rel="apple-touch-icon" sizes="144x144" href="/static/apple-icon-144x144.png">
+	  <link rel="apple-touch-icon" sizes="152x152" href="/static/apple-icon-152x152.png">
+	  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-icon-180x180.png">
+	  <link rel="apple-touch-startup-image" href="/static/launch.png">
+	  <link rel="icon" type="image/png" sizes="192x192"  href="/static/android-icon-192x192.png">
+	  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+	  <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png">
+	  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+	  <link rel="manifest" href="/static/manifest.json">
+	  <meta name="msapplication-TileColor" content="#ffffff">
+	  <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
+	  <meta name="theme-color" content="#ffffff">
+	  <meta name="viewport" content="width=device-width, initial-scale=.7">
+	  <!-- meta name="apple-mobile-web-app-capable" content="yes">
+	  <meta name="apple-mobile-web-app-status-bar-style" content="black"-->
+
+	  <style type="text/css">
+		body {
+			  position: relative;
+			  margin: 0;
+			  padding-bottom: 6rem;
+			  min-height: 100%;
+			  font-family: HelveticaNeue-UltraLight, Arial, sans-serif;
+		}
+	   .title{
+               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
                font-size:300%;
                font-weight:100;
                color:#F7F7F7;
-           }
+	   }
        .subtitle{
-           font-family:HelveticaNeue-UltraLight;
+           font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
            font-size:130%;
            color:#F7F7F7;
        }
-       .pin{
-           width:152px;
-           height:152px;
-           padding: 3px 3px 3px 3px;
-       }
+	   .roomtitle{
+		   font-family:HelveticaNeue-Light, Arial, sans-serif;
+		   font-size:200%;
+		   font-weight:100;
+		   color:#F7F7F7;
+		   text-align: center;
+	   }
        .footer{
-           font-family:HelveticaNeue-UltraLight;
+           font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
            font-size:100%;
            color:#F7F7F7;
            position: absolute;
@@ -28,37 +61,95 @@
            left: 0;
            padding: 1rem;
        }
-       @media only screen
+	   .containerOn{
+		   width:152px;
+		   height:152px;
+		   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+		   font-size:200%;
+		   background-color: white;
+		   border: none;
+		   text-align: center;
+		   border-radius: 152px;
+		   margin: auto 4px 12px 4px;
+		   vertical-align: middle;
+	   }
+	   .containerOff{
+		   width:152px;
+		   height:152px;
+		   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+		   font-size:200%;
+		   color:#F7F7F7;
+		   background-color: black;
+		   border: 1px solid #F7F7F7;
+		   text-align: center;
+		   border-radius: 152px;
+		   margin: auto 4px 12px 4px;
+		   vertical-align: middle;
+	   }
+/*       @media only screen
        and (min-device-width : 300px)
        and (max-device-width : 500px)
        and (orientation : portrait) {
            .title{
-               font-family:HelveticaNeue-UltraLight;
+               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+			   -webkit-text-stroke: 1px white;
                font-size:600%;
                font-weight:100;
                color:#F7F7F7;
            }
            .subtitle{
-               font-family:HelveticaNeue-UltraLight;
+               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+			   -webkit-text-stroke: 1px white;
                font-size:300%;
                color:#F7F7F7;
-           }
-           .pin{
-               width:304px;
-               height:304px;
-               padding: 20px 20px 20px 20px;
-           }
+		   }
+		   .roomtitle{
+			   font-family:HelveticaNeue-Light, Arial, sans-serif;
+			   -webkit-text-stroke: 1px white;
+			   font-size:400%;
+			   font-weight:100;
+			   color:#F7F7F7;
+			   text-align: center;
+		   }
+		   .containerOn{
+			   width:304px;
+			   height:304px;
+			   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+			   -webkit-text-stroke: 1px black;
+			   font-size:400%;
+			   background-color: white;
+			   border: none;
+			   text-align: center;
+			   border-radius: 304px;
+			   margin: auto 20px 40px 20px;
+			   vertical-align: middle;
+		   }
+		   .containerOff{
+			   width:304px;
+			   height:304px;
+			   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+			   -webkit-text-stroke: 1px white;
+			   font-size:400%;
+			   color:#F7F7F7;
+			   background-color: black;
+			   border: 2px solid #F7F7F7;
+			   text-align: center;
+			   border-radius: 304px;
+			   margin: auto 20px 40px 20px;
+			   vertical-align: middle;
+		   }
            .footer{
-               font-family:HelveticaNeue-UltraLight;
+               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+			   -webkit-text-stroke: 1px white;
                font-size:200%;
                color:#F7F7F7;
-               position: absolute;
+			   position: absolute;
                right: 0;
                bottom: 0;
                left: 0;
-               padding: 2rem;
+               padding: 0rem;
            }
-       }
+       }*/
            </style>
    </head>
 
@@ -66,12 +157,9 @@
        <div align="center">
            <p class="title">Welcome</p>
            <p class="subtitle">The future starts today</p><br>
-
-        <input class="pin" type="image" src= {{url1 }} onclick="self.location.href='/pin1/'">
-        <input class="pin" type="image" src= {{url2 }} onclick="self.location.href='/pin2/'">
-        <input class="pin" type="image" src= {{url3 }} onclick="self.location.href='/pin3/'">
-        <input class="pin" type="image" src= {{url4 }} onclick="self.location.href='/pin4/'">
-
+		   <form>
+			{{ buttons|safe }}
+		   </form>
         <p class="footer">Qasim -- {{ time }}</p>
 
     </div>

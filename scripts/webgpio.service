@@ -1,5 +1,5 @@
 [Unit]
-Description=pin1
+Description=WebGPIO
 After=multi-user.target
 
 [Service]
