@@ -1,9 +1,6 @@
 from flask import Flask, render_template, redirect, Markup
 import RPi.GPIO as GPIO
-import subprocess
-import os
-import datetime
-import time
+import subprocess, os, datetime, time
 app = Flask(__name__)
 
 
@@ -41,7 +38,7 @@ def main():
 
 	buttonGrid = Markup(passer)
 	templateData = {
-		'title' : 'EasyOn',
+		'title' : 'WebGPIO',
 		'time': timeString,
 		'buttons' : buttonGrid
 	}

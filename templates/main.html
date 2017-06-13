@@ -86,70 +86,10 @@
 		   margin: auto 4px 12px 4px;
 		   vertical-align: middle;
 	   }
-/*       @media only screen
-       and (min-device-width : 300px)
-       and (max-device-width : 500px)
-       and (orientation : portrait) {
-           .title{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-               font-size:600%;
-               font-weight:100;
-               color:#F7F7F7;
-           }
-           .subtitle{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-               font-size:300%;
-               color:#F7F7F7;
-		   }
-		   .roomtitle{
-			   font-family:HelveticaNeue-Light, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-			   font-size:400%;
-			   font-weight:100;
-			   color:#F7F7F7;
-			   text-align: center;
-		   }
-		   .containerOn{
-			   width:304px;
-			   height:304px;
-			   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px black;
-			   font-size:400%;
-			   background-color: white;
-			   border: none;
-			   text-align: center;
-			   border-radius: 304px;
-			   margin: auto 20px 40px 20px;
-			   vertical-align: middle;
-		   }
-		   .containerOff{
-			   width:304px;
-			   height:304px;
-			   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-			   font-size:400%;
-			   color:#F7F7F7;
-			   background-color: black;
-			   border: 2px solid #F7F7F7;
-			   text-align: center;
-			   border-radius: 304px;
-			   margin: auto 20px 40px 20px;
-			   vertical-align: middle;
-		   }
-           .footer{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-               font-size:200%;
-               color:#F7F7F7;
-			   position: absolute;
-               right: 0;
-               bottom: 0;
-               left: 0;
-               padding: 0rem;
-           }
-       }*/
+	  a{
+		  color: inherit;
+		  text-decoration: none;
+	  }
            </style>
    </head>
 
@@ -160,7 +100,7 @@
 		   <form>
 			{{ buttons|safe }}
 		   </form>
-        <p class="footer">Qasim -- {{ time }}</p>
+        <p class="footer"><a href= {{ logoutURL }}>Qasim</a> -- {{ time }}</p>
 
     </div>
    </body>
