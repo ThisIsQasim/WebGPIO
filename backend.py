@@ -33,8 +33,8 @@ def main():
 	for i in range(len(roomName)):
 		passer = passer + "<p class='roomtitle'>%s</p>" % (roomName[i])
 		for j in range(len(accName[i])):
-			pinHtmlName = accName[i][j].replace(" ", "<br>")
-			passer = passer + "<button class='%s' formaction='/pin/%d/%d/'>%s</button>" % (accState(i,j), i, j, pinHtmlName)
+			buttonHtmlName = accName[i][j].replace(" ", "<br>")
+			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
 
 	buttonGrid = Markup(passer)
 	templateData = {
@@ -44,7 +44,7 @@ def main():
 	}
 	return render_template('main.html', **templateData)
 
-@app.route("/pin/<int:roomNumber>/<int:accNumber>/")
+@app.route("/button/<int:roomNumber>/<int:accNumber>/")
 def toggle(roomNumber, accNumber):
 	if len(outPin[roomNumber]) != 0:
 		state= not GPIO.input(outPin[roomNumber][accNumber])
@@ -53,9 +53,10 @@ def toggle(roomNumber, accNumber):
 	else:
 		#action for other rooms
 		subprocess.call(['./echo.sh'], shell=True)
-	print(roomNumber, accNumber)
-	return redirect("/", code=302)
-
+	#print(roomNumber, accNumber)
+	buttonHtmlName = accName[roomNumber][accNumber].replace(" ", "<br>")
+	passer="<button class='%s' onclick='toggle(%d,%d)'>%s</button>" % (accState(roomNumber,accNumber), roomNumber, accNumber, buttonHtmlName)
+	return passer
 
 
 if __name__ == "__main__":

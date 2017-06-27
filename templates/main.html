@@ -71,10 +71,21 @@
 
    <body style="background-color:#000000">
        <div align="center">
-		   <form>
 			{{ buttons|safe }}
-		   </form>
-
     </div>
+	   
+	<script>
+		   function toggle(r,a) {
+			   var xhttp = new XMLHttpRequest();
+			   xhttp.onreadystatechange = function() {
+				   if (this.readyState == 4 && this.status == 200) {
+					   document.getElementById("button"+r+a).innerHTML =
+					   this.responseText;
+				   }
+			   };
+			   xhttp.open("GET", "button/"+r+"/"+a+"/", true);
+			   xhttp.send();
+		   }
+	</script>
    </body>
 </html>
