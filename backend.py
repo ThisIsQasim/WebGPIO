@@ -1,12 +1,12 @@
 from flask import Flask, render_template, redirect, Markup
-import RPi.GPIO as GPIO
+import OPi.GPIO as GPIO
 import subprocess, os, datetime, time
 app = Flask(__name__)
 
 
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
-outPin = [[6, 13, 19, 26],[]]
+outPin = [[17, 27, 22, 10],[]]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
