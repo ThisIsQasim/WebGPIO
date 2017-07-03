@@ -2,7 +2,7 @@ from datetime import timedelta
 from functools import update_wrapper
 from flask import Flask, render_template, redirect, Markup, make_response, request, current_app
 import RPi.GPIO as GPIO
-import subprocess, os, datetime, time
+import subprocess, os, datetime, time, json
 app = Flask(__name__)
 
 
@@ -96,9 +96,28 @@ def grid():
 		for j in range(len(accName[i])):
 			buttonHtmlName = accName[i][j].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-
 	return passer
 
+@app.route("/statelist/")
+def buttonStates():
+	accState=[]
+	for i in range(len(outPin)):
+		accState.append([])
+		for j in range(len(outPin[i])):
+			accState[i].append(GPIO.input(outPin[i][j]))
+	return json.dumps(accState)
+
+@app.route("/setstate/<int:roomNumber>/<int:accNumber>/<int:state>/")
+def setstate(roomNumber, accNumber, state):
+	if len(outPin[roomNumber]) != 0:
+		GPIO.output(outPin[roomNumber][accNumber],state)
+	#subprocess.call(['./echo.sh'], shell=True)
+	else:
+		#action for other rooms
+		subprocess.call(['./echo.sh'], shell=True)
+	return "0"
+
+							   
 @app.route("/button/<int:roomNumber>/<int:accNumber>/")
 @crossdomain(origin='*')
 def toggle(roomNumber, accNumber):
