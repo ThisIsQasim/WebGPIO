@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
-outPin = [[17, 27, 22, 10],[]]
+outPin = [[7, 17, 27, 22],[]]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -105,13 +105,13 @@ def buttonStates():
 	for i in range(len(outPin)):
 		accState.append([])
 		for j in range(len(outPin[i])):
-			accState[i].append(GPIO.input(outPin[i][j]))
+			accState[i].append(1 - GPIO.input(outPin[i][j]))
 	return json.dumps(accState)
 
 @app.route("/setstate/<int:roomNumber>/<int:accNumber>/<int:state>/")
 def setstate(roomNumber, accNumber, state):
 	if len(outPin[roomNumber]) != 0:
-		GPIO.output(outPin[roomNumber][accNumber],state)
+		GPIO.output(outPin[roomNumber][accNumber], 1 - state)
 	#subprocess.call(['./echo.sh'], shell=True)
 	else:
 		#action for other rooms
@@ -123,8 +123,8 @@ def setstate(roomNumber, accNumber, state):
 @crossdomain(origin='*')
 def toggle(roomNumber, accNumber):
 	if len(outPin[roomNumber]) != 0:
-		state= not GPIO.input(outPin[roomNumber][accNumber])
-		GPIO.output(outPin[roomNumber][accNumber],state)
+		state= 1 - GPIO.input(outPin[roomNumber][accNumber])
+		GPIO.output(outPin[roomNumber][accNumber], state)
 		#subprocess.call(['./echo.sh'], shell=True)
 	else:
 		#action for other rooms
