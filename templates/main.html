@@ -22,8 +22,9 @@
 	  <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
 	  <meta name="theme-color" content="#ffffff">
 	  <meta name="viewport" content="width=device-width, initial-scale=.7">
-	  <!-- meta name="apple-mobile-web-app-capable" content="yes">
-	  <meta name="apple-mobile-web-app-status-bar-style" content="black"-->
+	  <meta name="apple-mobile-web-app-capable" content="yes">
+	  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	  <meta name="mobile-web-app-capable" content="yes">
 
 	  <style type="text/css">
 		body {
@@ -33,17 +34,6 @@
 			  min-height: 100%;
 			  font-family: HelveticaNeue-UltraLight, Arial, sans-serif;
 		}
-	   .title{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-               font-size:300%;
-               font-weight:100;
-               color:#F7F7F7;
-	   }
-       .subtitle{
-           font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-           font-size:130%;
-           color:#F7F7F7;
-       }
 	   .roomtitle{
 		   font-family:HelveticaNeue-Light, Arial, sans-serif;
 		   font-size:200%;
@@ -51,16 +41,6 @@
 		   color:#F7F7F7;
 		   text-align: center;
 	   }
-       .footer{
-           font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-           font-size:100%;
-           color:#F7F7F7;
-           position: absolute;
-           right: 0;
-           bottom: 0;
-           left: 0;
-           padding: 1rem;
-       }
 	   .containerOn{
 		   width:152px;
 		   height:152px;
@@ -86,82 +66,27 @@
 		   margin: auto 4px 12px 4px;
 		   vertical-align: middle;
 	   }
-/*       @media only screen
-       and (min-device-width : 300px)
-       and (max-device-width : 500px)
-       and (orientation : portrait) {
-           .title{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-               font-size:600%;
-               font-weight:100;
-               color:#F7F7F7;
-           }
-           .subtitle{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-               font-size:300%;
-               color:#F7F7F7;
-		   }
-		   .roomtitle{
-			   font-family:HelveticaNeue-Light, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-			   font-size:400%;
-			   font-weight:100;
-			   color:#F7F7F7;
-			   text-align: center;
-		   }
-		   .containerOn{
-			   width:304px;
-			   height:304px;
-			   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px black;
-			   font-size:400%;
-			   background-color: white;
-			   border: none;
-			   text-align: center;
-			   border-radius: 304px;
-			   margin: auto 20px 40px 20px;
-			   vertical-align: middle;
-		   }
-		   .containerOff{
-			   width:304px;
-			   height:304px;
-			   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-			   font-size:400%;
-			   color:#F7F7F7;
-			   background-color: black;
-			   border: 2px solid #F7F7F7;
-			   text-align: center;
-			   border-radius: 304px;
-			   margin: auto 20px 40px 20px;
-			   vertical-align: middle;
-		   }
-           .footer{
-               font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-			   -webkit-text-stroke: 1px white;
-               font-size:200%;
-               color:#F7F7F7;
-			   position: absolute;
-               right: 0;
-               bottom: 0;
-               left: 0;
-               padding: 0rem;
-           }
-       }*/
+
            </style>
    </head>
 
    <body style="background-color:#000000">
        <div align="center">
-           <p class="title">Welcome</p>
-           <p class="subtitle">The future starts today</p><br>
-		   <form>
 			{{ buttons|safe }}
-		   </form>
-        <p class="footer">Qasim -- {{ time }}</p>
-
     </div>
+	   
+	<script>
+		   function toggle(r,a) {
+			   var xhttp = new XMLHttpRequest();
+			   xhttp.onreadystatechange = function() {
+				   if (this.readyState == 4 && this.status == 200) {
+					   document.getElementById("button"+r+a).innerHTML =
+					   this.responseText;
+				   }
+			   };
+			   xhttp.open("GET", "button/"+r+"/"+a+"/", true);
+			   xhttp.send();
+		   }
+	</script>
    </body>
 </html>
