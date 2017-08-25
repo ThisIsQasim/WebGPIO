@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import subprocess, os, datetime, time, json
 
 app = Flask(__name__)
-
+secure= False
 
 roomName = ['Bed Room', 'Server Room']
 accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
@@ -136,4 +136,8 @@ def toggle(roomNumber, accNumber):
 
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=8000, debug=True)
+	if secure is True:
+		app.run(host='0.0.0.0', port=8000, debug=True, ssl_context=('WebGPIO.cer', 'WebGPIO.key'))
+	else:
+		app.run(host='0.0.0.0', port=8000, debug=True)
+
