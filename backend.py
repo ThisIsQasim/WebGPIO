@@ -137,7 +137,7 @@ def toggle(roomNumber, accNumber):
 
 if __name__ == "__main__":
 	if secure is True:
-		app.run(host='0.0.0.0', port=8000, debug=True, ssl_context=('WebGPIO.cer', 'WebGPIO.key'))
+		app.run(host='0.0.0.0', port=8000,threaded=True, debug=True, ssl_context=('WebGPIO.cer', 'WebGPIO.key'))
 	else:
-		app.run(host='0.0.0.0', port=8000, debug=True)
+		app.run(host='0.0.0.0', port=8000,threaded=True, debug=True)
 
