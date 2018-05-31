@@ -77,17 +77,12 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
 def main():
 	now = datetime.datetime.now()
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
-
 	passer = ''
-	i = 0
-	for room in rooms:
+	for i, room in enumerate(rooms):
 		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
-		j = 0
-		for accesory in room['Accesories']:
+		for j, accesory in renumerate(oom['Accesories']):
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-			j = j+1
-		i = i+1
 	buttonGrid = Markup(passer)
 	templateData = {
 		'title' : 'WebGPIO',
@@ -134,7 +129,7 @@ def buttonStates():
 		j = 0
 		accState.append([])
 		for accesory in room['Accesories']:
-			if accesory['Type'] == ['Pin']:
+			if accesory['Type'] == 'Pin':
 				accState[i].append(1 - GPIO.input(accesory['Value']))
 			else:
 				accState[i].append(2)
