@@ -80,7 +80,7 @@ def main():
 	passer = ''
 	for i, room in enumerate(rooms):
 		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
-		for j, accesory in renumerate(oom['Accesories']):
+		for j, accesory in enumerate(room['Accesories']):
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
 	buttonGrid = Markup(passer)
@@ -95,15 +95,11 @@ def main():
 @crossdomain(origin='*')
 def grid():
 	passer = ''
-	i = 0
-	for room in rooms:
+	for i, room in enumerate(rooms):
 		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
-		j = 0
-		for accesory in room['Accesories']:
+		for j, accesory in enumerate(room['Accesories']):
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-			j = j+1
-		i = i+1
 	return passer
 
 @app.route("/button/<int:roomNumber>/<int:accNumber>/")
@@ -124,17 +120,13 @@ def toggle(roomNumber, accNumber):
 @app.route("/statelist/")
 def buttonStates():
 	accState=[]
-	i = 0
-	for room in rooms:
-		j = 0
+	for i, room in enumerate(rooms):
 		accState.append([])
-		for accesory in room['Accesories']:
+		for j, accesory in enumerate(room['Accesories']):
 			if accesory['Type'] == 'Pin':
 				accState[i].append(1 - GPIO.input(accesory['Value']))
 			else:
 				accState[i].append(2)
-			j = j+1
-		i = i+1
 	return json.dumps(accState)
 
 @app.route("/setstate/<int:roomNumber>/<int:accNumber>/<int:state>/")
