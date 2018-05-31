@@ -111,6 +111,21 @@ def grid():
 		i = i+1
 	return passer
 
+@app.route("/button/<int:roomNumber>/<int:accNumber>/")
+@crossdomain(origin='*')
+def toggle(roomNumber, accNumber):
+	accesory = rooms[roomNumber]['Accesories'][accNumber]
+	if accesory['Type'] == 'Pin':
+		state= 1 - GPIO.input(accesory['Value'])
+		GPIO.output(accesory['Value'], state)
+	else:
+		#action for other rooms
+		subprocess.call([accesory['Value']], shell=True)
+	buttonHtmlName = accesory['Name'].replace(" ", "<br>")
+	passer="<button class='%s' onclick='toggle(%d,%d)'>%s</button>" % (accState(roomNumber,accNumber), roomNumber, accNumber, buttonHtmlName)
+	return passer
+
+#Deprecated routes	
 @app.route("/statelist/")
 def buttonStates():
 	accState=[]
@@ -119,7 +134,10 @@ def buttonStates():
 		j = 0
 		accState.append([])
 		for accesory in room['Accesories']:
-			accState[i].append(1 - GPIO.input(accesory['Value']))
+			if accesory['Type'] == ['Pin']:
+				accState[i].append(1 - GPIO.input(accesory['Value']))
+			else:
+				accState[i].append(2)
 			j = j+1
 		i = i+1
 	return json.dumps(accState)
@@ -135,23 +153,6 @@ def setstate(roomNumber, accNumber, state):
 		subprocess.call([accesory['Value']], shell=True)
 	return "0"
 
-							   
-@app.route("/button/<int:roomNumber>/<int:accNumber>/")
-@crossdomain(origin='*')
-def toggle(roomNumber, accNumber):
-	accesory = rooms[roomNumber]['Accesories'][accNumber]
-	if accesory['Type'] == 'Pin':
-		state= 1 - GPIO.input(accesory['Value'])
-		GPIO.output(accesory['Value'], state)
-		#subprocess.call(['./echo.sh'], shell=True)
-	else:
-		#action for other rooms
-		subprocess.call([accesory['Value']], shell=True)
-	#print(roomNumber, accNumber)
-	buttonHtmlName = accesory['Name'].replace(" ", "<br>")
-	passer="<button class='%s' onclick='toggle(%d,%d)'>%s</button>" % (accState(roomNumber,accNumber), roomNumber, accNumber, buttonHtmlName)
-	return passer
-
 
 if __name__ == "__main__":
 	if secure:
@@ -160,4 +161,3 @@ if __name__ == "__main__":
 		app.run(host='0.0.0.0', port=8000, debug=True, ssl_context=(cerPath, keyPath))
 	else:
 		app.run(host='0.0.0.0', port=8000, debug=True)
-
