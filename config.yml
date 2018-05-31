@@ -27,7 +27,7 @@ Rooms:
 
 Settings:
   SSL: 
-    Enabled: True
+    Enabled: False
     Path: default
     Certificate: WebGPIO.cer
     Key: WebGPIO.key
