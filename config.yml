@@ -24,3 +24,10 @@ Rooms:
       - Name: Champ
         Type: Script
         Value: ./echo.sh
+
+Settings:
+  SSL: 
+    Enabled: True
+    Path: default
+    Certificate: WebGPIO.cer
+    Key: WebGPIO.key

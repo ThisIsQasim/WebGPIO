@@ -8,10 +8,9 @@ configPath = os.path.join(sys.path[0], "config.yml")
 with open(configPath, 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
-rooms=cfg['Rooms']
+rooms = cfg['Rooms']
+settings = cfg['Settings']
 app = Flask(__name__)
-secure= False
-
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -143,9 +142,13 @@ def setstate(roomNumber, accNumber, state):
 
 
 if __name__ == "__main__":
-	if secure:
-		cerPath=os.path.join(sys.path[0], "WebGPIO.cer")
-		keyPath=os.path.join(sys.path[0], "WebGPIO.key")
+	if settings['SSL']['Enabled']:
+		if settings['SSL']['Path'] == 'default':
+			cerPath=os.path.join(sys.path[0], settings['SSL']['Certificate'])
+			keyPath=os.path.join(sys.path[0],  settings['SSL']['Key'])
+		else:
+			cerPath=settings['SSL']['Path'] + settings['SSL']['Certificate']
+			keyPath=settings['SSL']['Path'] + settings['SSL']['Key']	
 		app.run(host='0.0.0.0', port=8000, threaded=True, debug=True, ssl_context=(cerPath, keyPath))
 	else:
 		app.run(host='0.0.0.0', port=8000, threaded=True, debug=True)
