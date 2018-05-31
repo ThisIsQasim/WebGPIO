@@ -11,15 +11,14 @@ rooms=cfg['rooms']
 app = Flask(__name__)
 secure= False
 
-roomName = ['Bed Room', 'Server Room']
-accName= [['Fan', 'Front Light', 'Back Light', 'Bright Light'], ['Champ']]
-outPin = [[7, 17, 27, 22],[]]
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-for i in range(len(outPin)):
-	GPIO.setup(outPin[i], GPIO.OUT, initial=GPIO.HIGH)
+for room in rooms:
+	for accesory in room['Accesories']:
+		if accesory['Type'] == 'Pin':
+			GPIO.setup(accesory['Value'], GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
 	accesory = rooms[roomNumber]['Accesories'][accNumber]
