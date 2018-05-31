@@ -87,8 +87,8 @@ def main():
 		for accesory in room['Accesories']:
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-			j++
-		i++
+			j = j+1
+		i = i+1
 	buttonGrid = Markup(passer)
 	templateData = {
 		'title' : 'WebGPIO',
@@ -108,8 +108,8 @@ def grid():
 		for accesory in room['Accesories']:
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-			j++
-		i++
+			j = j+1
+		i = i+1
 	return passer
 
 @app.route("/statelist/")
@@ -121,8 +121,8 @@ def buttonStates():
 		accState.append([])
 		for accesory in room['Accesories']:
 			accState[i].append(1 - GPIO.input(accesory['Value']))
-			j++
-		i++
+			j = j+1
+		i = i+1
 	return json.dumps(accState)
 
 @app.route("/setstate/<int:roomNumber>/<int:accNumber>/<int:state>/")
