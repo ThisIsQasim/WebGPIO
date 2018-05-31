@@ -22,7 +22,6 @@ for i in range(len(outPin)):
 	GPIO.setup(outPin[i], GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
-	print(i +''+ j)
 	accesory = rooms[roomNumber]['Accesories'][accNumber]
 	if accesory['Type'] == 'Pin':
 		if GPIO.input(accesory['Value']) is 1:
@@ -82,9 +81,9 @@ def main():
 
 	passer = ''
 	i = 0
-	j = 0
 	for room in rooms:
 		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
+		j = 0
 		for accesory in room['Accesories']:
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
@@ -103,9 +102,9 @@ def main():
 def grid():
 	passer = ''
 	i = 0
-	j = 0
 	for room in rooms:
 		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
+		j = 0
 		for accesory in room['Accesories']:
 			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
@@ -117,8 +116,8 @@ def grid():
 def buttonStates():
 	accState=[]
 	i = 0
-	j = 0
 	for room in rooms:
+		j = 0
 		accState.append([])
 		for accesory in room['Accesories']:
 			accState[i].append(1 - GPIO.input(accesory['Value']))
