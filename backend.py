@@ -4,10 +4,11 @@ from flask import Flask, render_template, redirect, Markup, make_response, reque
 import RPi.GPIO as GPIO
 import subprocess, os, sys, datetime, time, json, yaml
 
-with open("config.yml", 'r') as ymlfile:
+configPath = os.path.join(sys.path[0], "config.yml")
+with open(configPath, 'r') as ymlfile:
     cfg = yaml.load(ymlfile)
 
-rooms=cfg['rooms']
+rooms=cfg['Rooms']
 app = Flask(__name__)
 secure= False
 
@@ -145,6 +146,6 @@ if __name__ == "__main__":
 	if secure:
 		cerPath=os.path.join(sys.path[0], "WebGPIO.cer")
 		keyPath=os.path.join(sys.path[0], "WebGPIO.key")
-		app.run(host='0.0.0.0', port=8000, debug=True, ssl_context=(cerPath, keyPath))
+		app.run(host='0.0.0.0', port=8000, threaded=True, debug=True, ssl_context=(cerPath, keyPath))
 	else:
-		app.run(host='0.0.0.0', port=8000, debug=True)
+		app.run(host='0.0.0.0', port=8000, threaded=True, debug=True)

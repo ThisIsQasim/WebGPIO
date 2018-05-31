@@ -1,10 +1,10 @@
 ---
-rooms:
+Rooms:
   - Name: Bed Room
     Accesories:
       - Name: Fan
         Type: Pin
-        Value: 7
+        Value: 18
       - Name: Front Light
         Type: Pin
         Value: 17
@@ -14,6 +14,11 @@ rooms:
       - Name: Bright Light
         Type: Pin
         Value: 22
+  - Name: Bath Room
+    Accesories:
+      - Name: Light
+        Type: Pin
+        Value: 23
   - Name: Servers
     Accesories:
       - Name: Champ
