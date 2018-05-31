@@ -22,6 +22,7 @@ for i in range(len(outPin)):
 	GPIO.setup(outPin[i], GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
+	print(i +''+ j)
 	accesory = rooms[roomNumber]['Accesories'][accNumber]
 	if accesory['Type'] == 'Pin':
 		if GPIO.input(accesory['Value']) is 1:
