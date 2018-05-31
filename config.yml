@@ -1,0 +1,21 @@
+---
+rooms:
+  - Name: Bed Room
+    Accesories:
+      - Name: Fan
+        Type: Pin
+        Value: 7
+      - Name: Front Light
+        Type: Pin
+        Value: 17
+      - Name: Back Light
+        Type: Pin
+        Value: 27
+      - Name: Bright Light
+        Type: Pin
+        Value: 22
+  - Name: Servers
+    Accesories:
+      - Name: Champ
+        Type: Script
+        Value: ./echo.sh

@@ -2,8 +2,12 @@ from datetime import timedelta
 from functools import update_wrapper
 from flask import Flask, render_template, redirect, Markup, make_response, request, current_app
 import RPi.GPIO as GPIO
-import subprocess, os, datetime, time, json
+import subprocess, os, datetime, time, json, yaml
 
+with open("config.yml", 'r') as ymlfile:
+    cfg = yaml.load(ymlfile)
+
+rooms=cfg['rooms']
 app = Flask(__name__)
 secure= False
 
@@ -18,13 +22,15 @@ for i in range(len(outPin)):
 	GPIO.setup(outPin[i], GPIO.OUT, initial=GPIO.HIGH)
 
 def accState(roomNumber, accNumber):
-	if roomNumber == 0:
-		if GPIO.input(outPin[roomNumber][accNumber]) is 1:
+	accesory = rooms[roomNumber][Accesories][accNumber]
+	if accesory['Type'] == 'Pin':
+		if GPIO.input(accesory['Value']) is 1:
 			return 'containerOff'
 		else:
 			return 'containerOn'
-	elif roomNumber > 0:
+	else:
 		#get the state of other accesories in other rooms
+		#not implemented yet
 		return 'containerOff'
 
 
@@ -74,12 +80,15 @@ def main():
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
 
 	passer = ''
-	for i in range(len(roomName)):
-		passer = passer + "<p class='roomtitle'>%s</p>" % (roomName[i])
-		for j in range(len(accName[i])):
-			buttonHtmlName = accName[i][j].replace(" ", "<br>")
+	i = 0
+	j = 0
+	for room in rooms:
+		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
+		for accesory in room['Accesories']:
+			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-
+			j++
+		i++
 	buttonGrid = Markup(passer)
 	templateData = {
 		'title' : 'WebGPIO',
@@ -92,45 +101,55 @@ def main():
 @crossdomain(origin='*')
 def grid():
 	passer = ''
-	for i in range(len(roomName)):
-		passer = passer + "<p class='roomtitle'>%s</p>" % (roomName[i])
-		for j in range(len(accName[i])):
-			buttonHtmlName = accName[i][j].replace(" ", "<br>")
+	i = 0
+	j = 0
+	for room in rooms:
+		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
+		for accesory in room['Accesories']:
+			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
+			j++
+		i++
 	return passer
 
 @app.route("/statelist/")
 def buttonStates():
 	accState=[]
-	for i in range(len(outPin)):
+	i = 0
+	j = 0
+	for room in rooms:
 		accState.append([])
-		for j in range(len(outPin[i])):
-			accState[i].append(1 - GPIO.input(outPin[i][j]))
+		for accesory in room['Accesories']:
+			accState[i].append(1 - GPIO.input(accesory['Value']))
+			j++
+		i++
 	return json.dumps(accState)
 
 @app.route("/setstate/<int:roomNumber>/<int:accNumber>/<int:state>/")
 def setstate(roomNumber, accNumber, state):
-	if len(outPin[roomNumber]) != 0:
-		GPIO.output(outPin[roomNumber][accNumber], 1 - state)
-	#subprocess.call(['./echo.sh'], shell=True)
+	accesory = rooms[roomNumber]['Accesories'][accNumber]
+	if accesory['Type'] == 'Pin':
+		GPIO.output(accesory['Value'], 1 - state)
+		#subprocess.call(['./echo.sh'], shell=True)
 	else:
 		#action for other rooms
-		subprocess.call(['./echo.sh'], shell=True)
+		subprocess.call([accesory['Value']], shell=True)
 	return "0"
 
 							   
 @app.route("/button/<int:roomNumber>/<int:accNumber>/")
 @crossdomain(origin='*')
 def toggle(roomNumber, accNumber):
-	if len(outPin[roomNumber]) != 0:
-		state= 1 - GPIO.input(outPin[roomNumber][accNumber])
-		GPIO.output(outPin[roomNumber][accNumber], state)
+	accesory = rooms[roomNumber]['Accesories'][accNumber]
+	if accesory['Type'] == 'Pin':
+		state= 1 - GPIO.input(accesory['Value'])
+		GPIO.output(accesory['Value'], state)
 		#subprocess.call(['./echo.sh'], shell=True)
 	else:
 		#action for other rooms
-		subprocess.call(['./echo.sh'], shell=True)
+		subprocess.call([accesory['Value']], shell=True)
 	#print(roomNumber, accNumber)
-	buttonHtmlName = accName[roomNumber][accNumber].replace(" ", "<br>")
+	buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 	passer="<button class='%s' onclick='toggle(%d,%d)'>%s</button>" % (accState(roomNumber,accNumber), roomNumber, accNumber, buttonHtmlName)
 	return passer
 
