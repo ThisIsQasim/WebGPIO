@@ -30,6 +30,13 @@ def accState(roomNumber, accNumber):
 	else:
 		#get the state of other accesories in other rooms
 		#not implemented yet
+		try:
+			timeout = "timeout "+str(accesory['Timeout'])+" "
+		except Exception:
+			timeout = "timeout 0.2 "
+		returnCode = subprocess.call([timeout + accesory['Value']], shell=True)
+		if returnCode == 0:
+			return 'containerOn'
 		return 'containerOff'
 
 
@@ -109,9 +116,13 @@ def toggle(roomNumber, accNumber):
 	if accesory['Type'] == 'Pin':
 		state= 1 - GPIO.input(accesory['Value'])
 		GPIO.output(accesory['Value'], state)
-	else:
-		#action for other rooms
-		subprocess.call([accesory['Value']], shell=True)
+	# else:
+	# 	#action for other rooms
+	# 	try:
+	# 		timeout = "timeout "+str(accesory['Timeout'])+" "
+	# 	except Exception:
+	# 		timeout = "timeout 0.2 "
+	# 	subprocess.call([timeout + accesory['Value']], shell=True)
 	buttonHtmlName = accesory['Name'].replace(" ", "<br>")
 	passer="<button class='%s' onclick='toggle(%d,%d)'>%s</button>" % (accState(roomNumber,accNumber), roomNumber, accNumber, buttonHtmlName)
 	return passer

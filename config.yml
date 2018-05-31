@@ -19,14 +19,19 @@ Rooms:
       - Name: Light
         Type: Pin
         Value: 23
-  - Name: Servers
+  - Name: Scripts
     Accesories:
-      - Name: Champ
+      - Name: ROARR!
         Type: Script
         Value: ./echo.sh
+        Timeout: 0.3
+      - Name: Internet
+        Type: Script
+        Value: ping -c 1 8.8.8.8
+        Timeout: 0.3
 
 Settings:
-  SSL: 
+  SSL:
     Enabled: False
     Path: default
     Certificate: WebGPIO.cer
