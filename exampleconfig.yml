@@ -1,0 +1,38 @@
+---
+Rooms:
+  - Name: Bed Room
+    Accesories:
+      - Name: Fan
+        Type: Pin
+        Value: 18
+      - Name: Front Light
+        Type: Pin
+        Value: 17
+      - Name: Back Light
+        Type: Pin
+        Value: 27
+      - Name: Bright Light
+        Type: Pin
+        Value: 22
+  - Name: Bath Room
+    Accesories:
+      - Name: Light
+        Type: Pin
+        Value: 23
+  - Name: Scripts
+    Accesories:
+      - Name: ROARR!
+        Type: Script
+        Value: ./echo.sh
+        Timeout: 0.3
+      - Name: Internet
+        Type: Script
+        Value: ping -c 1 8.8.8.8
+        Timeout: 0.3
+
+Settings:
+  SSL:
+    Enabled: False
+    Path: default
+    Certificate: WebGPIO.cer
+    Key: WebGPIO.key

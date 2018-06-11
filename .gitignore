@@ -1,6 +1,7 @@
 *.key
 *.cer
 RPi
+config.yml
 
 # OS generated files #
 ######################
