@@ -6,12 +6,12 @@ import subprocess, os, sys, datetime, time, json, yaml
 
 configPath = os.path.join(sys.path[0], "config.yml")
 try:
-	try:
-		with open(configPath, 'r') as ymlfile:
-		    cfg = yaml.load(ymlfile)
-	except Exception:
-			print("Config file not found. Please provide a valid config.yml file. See exampleconfig.yml for reference")
-			exit()
+	with open(configPath, 'r') as ymlfile:
+	    cfg = yaml.load(ymlfile)
+except Exception:
+	print("Config file not found. Please provide a valid config.yml file. See exampleconfig.yml for reference")
+	exit()
+try:
 	rooms = cfg['Rooms']
 	settings = cfg['Settings']    
 except Exception:
