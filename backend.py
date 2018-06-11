@@ -80,34 +80,35 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600, attach_t
 		return update_wrapper(wrapped_function, f)
 	return decorator
 
+@app.context_processor
+def inject_enumerate():
+    return dict(enumerate=enumerate)
+
 @app.route("/")
 def main():
 	now = datetime.datetime.now()
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
-	passer = ''
 	for i, room in enumerate(rooms):
-		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
 		for j, accesory in enumerate(room['Accesories']):
-			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
-			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-	buttonGrid = Markup(passer)
+			rooms[i]['Accesories'][j]['accState'] = accState(i,j)
 	templateData = {
 		'title' : 'WebGPIO',
 		'time': timeString,
-		'buttons' : buttonGrid
+		'rooms' : rooms
 	}
 	return render_template('main.html', **templateData)
 
 @app.route("/grid/")
 @crossdomain(origin='*')
 def grid():
-	passer = ''
 	for i, room in enumerate(rooms):
-		passer = passer + "<p class='roomtitle'>%s</p>" % (room['Name'])
 		for j, accesory in enumerate(room['Accesories']):
-			buttonHtmlName = accesory['Name'].replace(" ", "<br>")
-			passer = passer + "<span id='button%d%d'><button class='%s' onclick='toggle(%d,%d)'>%s</button></span>" % (i, j, accState(i,j), i, j, buttonHtmlName)
-	return passer
+			rooms[i]['Accesories'][j]['accState'] = accState(i,j)
+	templateData = {
+		'title' : 'WebGPIO',
+		'rooms' : rooms
+	}
+	return render_template('grid.html', **templateData)
 
 @app.route("/button/<int:roomNumber>/<int:accNumber>/")
 @crossdomain(origin='*')
@@ -123,9 +124,14 @@ def toggle(roomNumber, accNumber):
 	# 	except Exception:
 	# 		timeout = "timeout 0.2 "
 	# 	subprocess.call([timeout + accesory['Value']], shell=True)
-	buttonHtmlName = accesory['Name'].replace(" ", "<br>")
-	passer="<button class='%s' onclick='toggle(%d,%d)'>%s</button>" % (accState(roomNumber,accNumber), roomNumber, accNumber, buttonHtmlName)
-	return passer
+	templateData = {
+		'title' : 'WebGPIO',
+		'accState' : accState(roomNumber, accNumber),
+		'roomNumber' : roomNumber,
+		'accNumber' : accNumber,
+		'name' : accesory['Name']
+	}
+	return render_template('button.html', **templateData)
 
 #Deprecated routes	
 @app.route("/statelist/")
