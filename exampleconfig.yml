@@ -27,12 +27,17 @@ Rooms:
         Timeout: 0.3
       - Name: Internet
         Type: Script
-        Value: ping -c 1 8.8.8.8
+        Value: ping -c 1 8.8.8.8 > /dev/null
         Timeout: 0.3
 
-Settings:
-  SSL:
-    Enabled: False
-    Path: default
-    Certificate: WebGPIO.cer
-    Key: WebGPIO.key
+#These are the default settings, uncomment to change them
+
+# Settings:
+#   Host: 0.0.0.0
+#   Port: 8000
+#   Debug: True
+#   SSL:
+#     Enabled: True
+#     Path: default
+#     Certificate: WebGPIO.cer
+#     Key: WebGPIO.key
