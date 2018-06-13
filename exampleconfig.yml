@@ -3,41 +3,46 @@ Rooms:
   - Name: Bed Room
     Accesories:
       - Name: Fan
-        Type: Pin
-        Value: 18
+        Type: GPIO
+        Pin: 18
       - Name: Front Light
-        Type: Pin
-        Value: 17
+        Type: GPIO
+        Pin: 17
       - Name: Back Light
-        Type: Pin
-        Value: 27
+        Type: GPIO
+        Pin: 27
       - Name: Bright Light
-        Type: Pin
-        Value: 22
-  - Name: Bath Room
+        Type: GPIO
+        Pin: 22
+  - Name: Garage
     Accesories:
       - Name: Light
-        Type: Pin
-        Value: 23
+        Type: GPIO
+        Pin: 23
+      - Name: Door
+        Type: GPIO
+        Pin: 24
+        Duration: 2
   - Name: Scripts
     Accesories:
-      - Name: ROARR!
-        Type: Script
-        Value: ./scripts/echo.sh
-        Timeout: 0.3
       - Name: Internet
         Type: Script
-        Value: ping -c 1 8.8.8.8 > /dev/null
+        Status: ping -c 1 8.8.8.8 > /dev/null
         Timeout: 0.3
+      - Name: File
+        Type: Script
+        Status: sudo systemctl status nginx 2> /dev/null
+        Action: 
+          On: sudo systemctl start nginx
+          Off: sudo systemctl stop nginx
 
-#These are the default settings, uncomment to change them
 
 #Settings:
 #  Host: 0.0.0.0
 #  Port: 8000
 #  Debug: True
 #  SSL:
-#    Enabled: True
+#    Enabled: False
 #    Path: default
 #    Certificate: WebGPIO.cer
 #    Key: WebGPIO.key
