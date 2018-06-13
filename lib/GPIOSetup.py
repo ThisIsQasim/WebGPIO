@@ -1,4 +1,5 @@
-from setup import rooms, settings
+from lib.setup import rooms, settings
+
 if settings['Make'] == 'OrangePi':
 	import OPi.GPIO as GPIO
 else:

@@ -1,8 +1,8 @@
 import subprocess, datetime, time, json
 from flask import Flask, render_template, redirect, Markup
-from cors import crossdomain
-from setup import rooms, settings
-from GPIOSetup import GPIO
+from lib.cors import crossdomain
+from lib.setup import rooms, settings
+from lib.GPIOSetup import GPIO
 
 app = Flask(__name__)
 

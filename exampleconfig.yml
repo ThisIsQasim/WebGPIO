@@ -23,7 +23,7 @@ Rooms:
     Accesories:
       - Name: ROARR!
         Type: Script
-        Value: ./echo.sh
+        Value: ./scripts/echo.sh
         Timeout: 0.3
       - Name: Internet
         Type: Script
@@ -32,12 +32,14 @@ Rooms:
 
 #These are the default settings, uncomment to change them
 
-# Settings:
-#   Host: 0.0.0.0
-#   Port: 8000
-#   Debug: True
-#   SSL:
-#     Enabled: True
-#     Path: default
-#     Certificate: WebGPIO.cer
-#     Key: WebGPIO.key
+#Settings:
+#  Host: 0.0.0.0
+#  Port: 8000
+#  Debug: True
+#  SSL:
+#    Enabled: True
+#    Path: default
+#    Certificate: WebGPIO.cer
+#    Key: WebGPIO.key
+#  Inverted: False
+#  RefreshRate: 4

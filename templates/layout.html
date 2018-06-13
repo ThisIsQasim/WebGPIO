@@ -42,10 +42,11 @@
 		   text-align: center;
 	   }
 	   .container1{
-		   width:152px;
-		   height:152px;
-		   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-		   font-size:200%;
+		   width: 152px;
+		   height: 152px;
+		   font-family: HelveticaNeue-UltraLight, Arial, sans-serif;
+		   font-size: 200%;
+		   color: #000000;
 		   background-color: white;
 		   border: none;
 		   text-align: center;
@@ -54,11 +55,11 @@
 		   vertical-align: middle;
 	   }
 	   .container0{
-		   width:152px;
-		   height:152px;
-		   font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
-		   font-size:200%;
-		   color:#F7F7F7;
+		   width: 152px;
+		   height: 152px;
+		   font-family: HelveticaNeue-UltraLight, Arial, sans-serif;
+		   font-size: 200%;
+		   color: #F7F7F7;
 		   background-color: black;
 		   border: 1px solid #F7F7F7;
 		   text-align: center;
@@ -66,40 +67,59 @@
 		   margin: auto 4px 12px 4px;
 		   vertical-align: middle;
 	   }
-
-           </style>
+</style>
    </head>
 	<script>
-		   function toggle(r,a) {
-			   var xhttp = new XMLHttpRequest();
-			   xhttp.onreadystatechange = function() {
-				   if (this.readyState == 4 && this.status == 200) {
-					   document.getElementById("button"+r+a).innerHTML =
-					   this.responseText;
-				   }
-			   };
-			   xhttp.open("GET", "button/"+r+"/"+a+"/", true);
-			   xhttp.send();
-		   }
-		   function grid() {
-			   var xhttp = new XMLHttpRequest();
-			   xhttp.onreadystatechange = function() {
-				   if (this.readyState == 4 && this.status == 200) {
-					   document.getElementById("grid").innerHTML =
-					   this.responseText;
-				   }
-			   };
-			   xhttp.open("GET", "grid/", true);
-			   xhttp.send();
-		   }
-			window.setInterval(function(){
-			  grid()
-			}, {{ refresh_rate }});
+		function loading(r,a){
+			containerState = document.getElementById("button"+r+a).firstChild.className
+			if (containerState == "container0"){
+				document.getElementById("button"+r+a).innerHTML =
+						"<button class='container1'><div class='lds-spinner-dark' style='100%;height:100%'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>"
+			}
+			if (containerState == "container1"){
+				document.getElementById("button"+r+a).innerHTML =
+						"<button class='container0'><div class='lds-spinner-white' style='100%;height:100%'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>"
+			}
+		}
+		function toggle(r,a) {
+			loading(r,a)
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById("button"+r+a).innerHTML =
+				this.responseText;
+				}
+			};
+			xhttp.open("GET", "button/"+r+"/"+a+"/", true);
+			xhttp.send();
+		}
+		function grid() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.getElementById("grid").innerHTML =
+					this.responseText;
+					}
+				};
+				xhttp.open("GET", "grid/", true);
+			 	xhttp.send();
+			}
+		window.setInterval(function(){
+			grid()
+		}, {{ refresh_rate }});
 
 	</script>
-   <body style="background-color:#000000">
-   	    <div id='grid' align="center">
-			  {% block grid %}{% endblock %}
+	<body style="background-color:#000000">
+		<div id='grid' align="center">
+			{% block grid %}{% endblock %}	
 		</div>
-   </body>
+	</body>
+	<script type="text/javascript">
+		var giftofspeed = document.createElement('link');
+		giftofspeed.rel = 'stylesheet';
+		giftofspeed.href = 'static/spinner.css';
+		giftofspeed.type = 'text/css';
+		var godefer = document.getElementsByTagName('link')[0];
+		godefer.parentNode.insertBefore(giftofspeed, godefer);
+	</script>
 </html>
