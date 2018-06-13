@@ -29,7 +29,7 @@ Rooms:
         Type: Script
         Status: ping -c 1 8.8.8.8 > /dev/null
         Timeout: 0.3
-      - Name: File
+      - Name: Nginx
         Type: Script
         Status: sudo systemctl is-active --quiet nginx 2> /dev/null
         Action: 

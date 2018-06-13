@@ -18,5 +18,5 @@ else:
 
 for room in rooms:
 	for accesory in room['Accesories']:
-		if accesory['Type'] == 'Pin':
-			GPIO.setup(accesory['Value'], GPIO.OUT, initial=initialState)
+		if accesory['Type'] == 'GPIO':
+			GPIO.setup(accesory['Pin'], GPIO.OUT, initial=initialState)
