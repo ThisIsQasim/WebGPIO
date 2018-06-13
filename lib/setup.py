@@ -14,59 +14,44 @@ except Exception:
 	print("config.yml file is not valid. See exampleconfig.yml for reference")
 	exit()
 
-try:
-	settings = cfg['Settings']    
-except Exception:
+if 'Settings' in cfg:
+	settings = cfg['Settings']
+else:
 	settings = {}
 
-try:
-	settings['Host']
-except Exception:
+if 'Host' not in settings:
 	settings['Host'] = '0.0.0.0' 
 
-try:
-	settings['Port']
-except Exception:
+if 'Port' not in settings:
 	settings['Port'] = 8000
 
-try:
-	settings['Threaded']
-except Exception:
+if 'Threaded' not in settings:
 	settings['Threaded'] = True 
 
-try:
-	settings['Debug']
-except Exception:
+if 'Debug' not in settings:
 	settings['Debug'] = False 
 
-try:
-	try:
-		if settings['SSL']['Path'] == 'default':
-			raise Exception
-		settings['cerPath']=settings['SSL']['Path'] + settings['SSL']['Certificate']
-		settings['keyPath']=settings['SSL']['Path'] + settings['SSL']['Key']
-	except Exception:
+if 'SSL' in settings:
+	if 'Path' in settings['SSL']:
+		if settings['SSL']['Path'] != 'default':
+			settings['cerPath']=settings['SSL']['Path'] + settings['SSL']['Certificate']
+			settings['keyPath']=settings['SSL']['Path'] + settings['SSL']['Key']
+	else:
 		settings['cerPath']=os.path.join(sys.path[0], settings['SSL']['Certificate'])
 		settings['keyPath']=os.path.join(sys.path[0],  settings['SSL']['Key'])
-except Exception:
+else:
 	settings['SSL']= { 'Enabled': False }
 
-try:
+if 'Inverted' in settings:
 	settings['ActiveValue'] = 1 - int(settings['Inverted'])
-except Exception:
+else:
 	settings['ActiveValue'] = 1
 
-try:
-	settings['RefreshRate']
-except Exception:
+if 'RefreshRate' not in settings:
 	settings['RefreshRate'] = 5
 
-try:
-	settings['GPIOMode']
-except Exception:
+if 'GPIOMode' not in settings:
 	settings['GPIOMode'] = "BCM"
 
-try:
-	settings['Make']
-except Exception:
+if 'Make' not in settings:
 	settings['Make'] = "RaspberryPi"
