@@ -1,11 +1,20 @@
 # WebGPIO
-A simple web UI for controlling the GPIO pins on a Raspberry Pi. Define pin numbers (BCM) in <code>outPin</code> array and pin names in <code>pinName</code> array in file backend.py. Make sure you have flask installed.
+A simple web UI for controlling the GPIO pins on a Raspberry Pi.
 
-    sudo apt-get install python-pip
-    sudo pip install flask
+To setup make sure you have flask installed
+
+    sudo apt install python3-pip libpython3-dev
+    sudo pip3 install setuptools wheel
+    sudo pip3 install flask pyyaml
+
+Clone the repo and create a config file named config.yml in the repo folder. Define pin numbers, in BCM format, grouped into "Rooms" and "Accesories" in config.yml. See exampleconfig.yml for reference
+
+    git clone https://github.com/ThisIsQasim/WebGPIO
+    cd WebGPIO
+    cp exampleconfig.yml config.yml
 
 Run with python
 
-     python backend.py
-     
-Access the UI at http://piIPAddress:8000
+    python3 backend.py     
+
+Access the UI at http://pi_ip_address:8000

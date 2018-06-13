@@ -1,5 +1,8 @@
 *.key
 *.cer
+RPi
+config.yml
+__pycache__
 
 # OS generated files #
 ######################
