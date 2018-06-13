@@ -1,35 +1,17 @@
-import subprocess, datetime, time, json
+import datetime, json
 from flask import Flask, render_template, redirect, Markup
 from lib.cors import crossdomain
 from lib.setup import rooms, settings
 from lib.GPIOSetup import GPIO
-
+from lib.accesory import accesoryObject
 app = Flask(__name__)
 
-
-def getState(roomNumber, accNumber):
-	accesory = rooms[roomNumber]['Accesories'][accNumber]
-	if accesory['Type'] == 'Pin':
-		if GPIO.input(accesory['Value']) is settings['ActiveValue']:
-			return 1
-		else:
-			return 0
-	else:
-		#get the state of other accesories in other rooms
-		#not properly implemented yet
-		try:
-			timeout = "timeout "+str(accesory['Timeout'])+" "
-		except Exception:
-			timeout = "timeout 0.2 "
-		returnCode = subprocess.call([timeout + accesory['Value']], shell=True)
-		if returnCode == 0:
-			return 1
-		return 0
 
 def updateStates(rooms):
 	for i, room in enumerate(rooms):
 		for j, accesory in enumerate(room['Accesories']):
-			rooms[i]['Accesories'][j]['State'] = getState(i,j)
+			current_accesory = accesoryObject(accesory)
+			rooms[i]['Accesories'][j]['State'] = current_accesory.getState()
 	return rooms
 
 @app.context_processor
@@ -60,17 +42,15 @@ def grid():
 
 @app.route("/button/<int:roomNumber>/<int:accNumber>/")
 @crossdomain(origin='*')
-def toggle(roomNumber, accNumber):
-	accesory = rooms[roomNumber]['Accesories'][accNumber]
-	if accesory['Type'] == 'Pin':
-		state= 1 - GPIO.input(accesory['Value'])
-		GPIO.output(accesory['Value'], state)
+def button(roomNumber, accNumber):
+	current_accesory = accesoryObject(rooms[roomNumber]['Accesories'][accNumber])
+	current_accesory.executeAction()
 	templateData = {
 		'title' : 'WebGPIO',
-		'state' : getState(roomNumber, accNumber),
+		'state' : current_accesory.getState(),
 		'roomNumber' : roomNumber,
 		'accNumber' : accNumber,
-		'name' : accesory['Name']
+		'name' : current_accesory.name
 	}
 	return render_template('button.html', **templateData)
 
