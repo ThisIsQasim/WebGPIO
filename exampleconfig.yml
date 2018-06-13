@@ -31,7 +31,7 @@ Rooms:
         Timeout: 0.3
       - Name: File
         Type: Script
-        Status: sudo systemctl status nginx 2> /dev/null
+        Status: sudo systemctl is-active --quiet nginx 2> /dev/null
         Action: 
           On: sudo systemctl start nginx
           Off: sudo systemctl stop nginx
