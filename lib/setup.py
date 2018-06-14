@@ -5,7 +5,7 @@ try:
 	with open(configPath, 'r') as ymlfile:
 	    cfg = yaml.load(ymlfile)
 except Exception:
-	print("Config file not found. Please provide a valid config.yml file. See exampleconfig.yml for reference")
+	print("Config file not found or invalid. Please provide a valid config.yml file. See exampleconfig.yml for reference")
 	exit()
 
 try:
@@ -42,11 +42,6 @@ if 'SSL' in settings:
 else:
 	settings['SSL']= { 'Enabled': False }
 
-if 'Inverted' in settings:
-	settings['ActiveValue'] = 1 - int(settings['Inverted'])
-else:
-	settings['ActiveValue'] = 1
-
 if 'RefreshRate' not in settings:
 	settings['RefreshRate'] = 5
 
@@ -55,3 +50,16 @@ if 'GPIOMode' not in settings:
 
 if 'Make' not in settings:
 	settings['Make'] = "RaspberryPi"
+
+
+if 'Inverted' in settings:
+	GlobalActiveState = 1 - int(settings['Inverted'])
+else:
+	GlobalActiveState = 1
+
+for i, room in enumerate(rooms):
+	for j, accesory in enumerate(room['Accesories']):
+		if 'Inverted' in accesory:
+			rooms[i]['Accesories'][j]['ActiveState'] = 1 - int(accesory['Inverted'])
+		else:
+			rooms[i]['Accesories'][j]['ActiveState'] = GlobalActiveState

@@ -11,12 +11,16 @@ else:
 	GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-if settings['ActiveValue'] == 0:
-	initialState = GPIO.HIGH
-else:
-	initialState = GPIO.LOW
+def initialState(active_value):
+	if active_value == 0:
+		return GPIO.HIGH
+	else:
+		return GPIO.LOW
 
 for room in rooms:
 	for accesory in room['Accesories']:
 		if accesory['Type'] == 'GPIO':
-			GPIO.setup(accesory['Pin'], GPIO.OUT, initial=initialState)
+			initial_state = initialState(accesory['ActiveState'])
+			GPIO.setup(accesory['Pin'],
+					   GPIO.OUT, 
+					   initial= initial_state)

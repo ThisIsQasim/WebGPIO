@@ -13,6 +13,7 @@ class accesoryObject:
 		self.type = attributes['Type']
 		if self.type == 'GPIO':
 			self.pin = attributes['Pin']
+			self.active = attributes['ActiveState']
 		if self.type == 'Script':
 			if 'Timeout' in attributes:
 				self.timeout = "timeout "+str(attributes['Timeout'])+" "
@@ -26,7 +27,7 @@ class accesoryObject:
 
 	def getState(self):
 		if self.type == 'GPIO':
-			if GPIO.input(self.pin) is settings['ActiveValue']:
+			if GPIO.input(self.pin) is self.active:
 				return 1
 			else:
 				return 0
