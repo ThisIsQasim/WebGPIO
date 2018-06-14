@@ -24,6 +24,8 @@ class accesoryObject:
 				self.action = True
 				self.on_cmd = attributes['Action'][True]
 				self.off_cmd = attributes['Action'][False]
+			else:
+				self.action = False
 
 	def getState(self):
 		if self.type == 'GPIO':

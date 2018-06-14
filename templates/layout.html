@@ -34,6 +34,12 @@
 			  min-height: 100%;
 			  font-family: HelveticaNeue-UltraLight, Arial, sans-serif;
 		}
+		div {
+			display: inline-block;
+		}
+		#grid{
+			display: block;
+		}
 	   .roomtitle{
 		   font-family:HelveticaNeue-Light, Arial, sans-serif;
 		   font-size:200%;
@@ -70,39 +76,46 @@
 </style>
    </head>
 	<script>
+		var blocked = false;
 		function loading(r,a){
-			containerState = document.getElementById("button"+r+a).firstChild.className
+			containerState = document.getElementById("button"+r+a).firstChild.className;
 			if (containerState == "container0"){
 				document.getElementById("button"+r+a).innerHTML =
-						"<button class='container1'><div class='lds-spinner-dark' style='100%;height:100%'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>"
+						"<div class='container1'><div class='spinner dark'><i></i>  <i></i>  <i></i>  <i></i>  <i></i>  <i></i>	<i></i>  <i></i>  <i></i>  <i></i>  <i></i>  <i></i></div></div>";
 			}
 			if (containerState == "container1"){
 				document.getElementById("button"+r+a).innerHTML =
-						"<button class='container0'><div class='lds-spinner-white' style='100%;height:100%'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></button>"
+						"<div class='container0'><div class='spinner light'><i></i>  <i></i>  <i></i>  <i></i>  <i></i>  <i></i>	<i></i>  <i></i>  <i></i>  <i></i>  <i></i>  <i></i></div></div>";
 			}
 		}
 		function toggle(r,a) {
-			loading(r,a)
+			blocked = true;
+			loading(r,a);
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("button"+r+a).innerHTML =
-				this.responseText;
+				if (this.readyState == 4){
+					if (this.status == 200) {
+						document.getElementById("button"+r+a).innerHTML =
+						this.responseText;
+					}
+					blocked = false;
 				}
 			};
 			xhttp.open("GET", "button/"+r+"/"+a+"/", true);
 			xhttp.send();
 		}
 		function grid() {
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-					document.getElementById("grid").innerHTML =
-					this.responseText;
-					}
-				};
+			if (! blocked){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						document.getElementById("grid").innerHTML =
+						this.responseText;
+						}
+					};
 				xhttp.open("GET", "grid/", true);
-			 	xhttp.send();
+				xhttp.send();
+				}
 			}
 		window.setInterval(function(){
 			grid()
