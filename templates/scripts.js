@@ -1,4 +1,4 @@
-var blocked = false;
+var blockingCounter = 0;
 function loading(r,a){
 	containerState = document.getElementById("button"+r+a).firstChild.className;
 	if (containerState == "container0"){
@@ -11,7 +11,7 @@ function loading(r,a){
 	}
 }
 function toggle(r,a) {
-	blocked = true;
+	blockingCounter++;
 	loading(r,a);
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -20,17 +20,17 @@ function toggle(r,a) {
 				document.getElementById("button"+r+a).innerHTML =
 				this.responseText;
 			}
-			blocked = false;
+			blockingCounter--;
 		}
 	};
 	xhttp.open("GET", "button/"+r+"/"+a+"/", true);
 	xhttp.send();
 }
 function grid() {
-	if (! blocked){
+	if (blockingCounter == 0){
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200 && ! blocked) {
+			if (this.readyState == 4 && this.status == 200 && blockingCounter == 0) {
 				document.getElementById("grid").innerHTML =
 				this.responseText;
 				}
