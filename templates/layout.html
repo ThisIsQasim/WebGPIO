@@ -1,14 +1,21 @@
 <!DOCTYPE html>
+<html>
 	<head>
     	<title>{{ title }}</title>
 		{% include "meta.html" %}
-		{% include "style.html" %}
+		<style type="text/css">
+		{% include "style.css" %}
+		{% include "spinner.css" %}
+		</style>
+		<script type="text/javascript">
+		{% include "scripts.js" %}
+		</script>
 	</head>
-	{% include "scripts.html" %}
 
 	<body style="background-color:#000000">
 		<div id='grid' align="center">
 			{% block grid %}{% endblock %}	
 		</div>
 	</body>
+
 </html>
