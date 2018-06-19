@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+			<form method="post" class='form' action="{{ url_for('auth') }}">Password:<br>
+				<input type="password" name="password" /><br>
+				<input type="submit" value="Login" />
+			</form>
+{% endblock %}

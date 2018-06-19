@@ -8,6 +8,20 @@ body {
 div {
 	display: inline-block;
 }
+input {
+	width: 200px;
+	font-family:HelveticaNeue, Arial, sans-serif;
+	font-size:60%;
+	color:#F7F7F7;
+	background-color: black;
+	border-radius: 5px;
+	border: 1px solid #F7F7F7;
+	padding: 8px;
+	margin: 8px 0px 16px 0px;
+	text-align: center;
+	-webkit-appearance: none;
+	box-sizing: inherit;
+}
 #grid{
 	display: block;
 }
@@ -43,4 +57,35 @@ div {
 	border-radius: 152px;
 	margin: auto 4px 12px 4px;
 	vertical-align: middle;
+}
+
+
+.title{
+	font-family:HelveticaNeue, Arial, sans-serif;
+	font-size:300%;
+	font-weight:100;
+	color:#F7F7F7;
+}
+.subtitle{
+	font-family:HelveticaNeue-UltraLight, Arial, sans-serif;
+	font-size:130%;
+	color:#F7F7F7;
+}
+.form{
+	font-family:HelveticaNeue-Light, Arial, sans-serif;
+	font-size:170%;
+	font-weight:100;
+	color:#F7F7F7;
+	text-align: center;
+}
+.footer{
+	font-family:HelveticaNeue-Light, Arial, sans-serif;
+	font-size:100%;
+	color:#F7F7F7;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: 0;
+	padding: 4rem;
 }

@@ -8,14 +8,12 @@
 		{% include "spinner.css" %}
 		</style>
 		<script type="text/javascript">
-		{% include "scripts.js" %}
+			{% block scripts %}{% endblock %}
 		</script>
 	</head>
 
 	<body style="background-color:#000000">
-		<div id='grid' align="center">
-			{% block grid %}{% endblock %}	
-		</div>
+			{% block body %}{% endblock %}	
 	</body>
 
 </html>

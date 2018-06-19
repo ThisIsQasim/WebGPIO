@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
-{% block grid %}
-{% include "grid.html" %}
+{% block scripts %}
+	{% include "scripts.js" %}
+{% endblock %}
+{% block body %}
+	<div id='grid' align="center">
+	{% include "grid.html" %}
+	</div>
 {% endblock %}
