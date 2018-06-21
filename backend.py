@@ -1,4 +1,4 @@
-import datetime, json, secrets
+import datetime, json
 from flask import Flask, render_template, request, redirect, Markup, make_response, url_for
 from lib.cors import crossdomain
 from lib.setup import rooms, settings
@@ -64,16 +64,22 @@ def login():
 
 @app.route("/authenticate/", methods=['GET', 'POST'])
 def auth():
-	expire_date = datetime.datetime.now()
-	expire_date = expire_date + datetime.timedelta(days=30)
 	if request.method == 'POST':
 		password = request.form['password']
 		token = authentication.generateToken(password)
 		if token:
-			resp = make_response(redirect("/", code=302))
-			resp.set_cookie('token', token, expires=expire_date)
-			return resp
+			expiry_date = datetime.datetime.now() + datetime.timedelta(days=30)
+			response = make_response(redirect(url_for('.main')))
+			response.set_cookie('token', token, expires=expiry_date)
+			return response
 	return redirect(url_for('.login'))
+
+@app.route("/logout/")
+def logout():
+	authentication.removeToken()
+	response = make_response(redirect(url_for('.login')))
+	response.set_cookie('token', '', expires=0)
+	return response
 
 if __name__ == "__main__":
 	if settings['SSL']['Enabled']:

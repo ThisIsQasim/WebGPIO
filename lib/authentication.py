@@ -1,4 +1,4 @@
-import hashlib, secrets, os, sys, getpass
+import hashlib, string, random, os, sys, getpass
 from functools import wraps
 from flask import request, redirect, url_for
 
@@ -12,6 +12,8 @@ try:
 except Exception:
 	requiresPassword = False
 
+def randomString(length):
+    return ''.join(random.choice(string.ascii_letters + string.digits) for m in range(length))
 
 def inputPassword():
 	password = getpass.getpass()
@@ -36,16 +38,17 @@ def generatePasswordHashFile(password=''):
 	passwordHashFile = open(passwordHashFilePath, 'w+')
 	passwordHashFile.write(passwordhash)
 	passwordHashFile.close()
+	os.chmod(passwordHashFilePath, 0o600)
 
-def passwordCheck(password):
+def checkPassword(password):
 	passwordHash = generatePasswordHash(password)
 	if passwordHash == passwordHashOnFile:
 		return True
 	return False
 
 def generateToken(password):
-	if passwordCheck(password):
-		token = secrets.token_urlsafe(20)
+	if checkPassword(password):
+		token = randomString(40)
 		Tokens.append(token)
 		return token
 	return
@@ -68,3 +71,8 @@ def login_required(f):
 			return f(*args, **kwargs)
 		return redirect(url_for('login'))
 	return decorated_function
+
+def removeToken():
+	token = request.cookies.get('token')
+	if token in Tokens:
+		Tokens.remove(token)
