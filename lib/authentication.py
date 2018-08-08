@@ -35,9 +35,8 @@ def generatePasswordHashFile(password=''):
 	if password == '':
 		password = inputPassword()
 	passwordhash = generatePasswordHash(password)
-	passwordHashFile = open(passwordHashFilePath, 'w+')
-	passwordHashFile.write(passwordhash)
-	passwordHashFile.close()
+	with open(passwordHashFilePath, 'w+') as passwordHashFile:
+		passwordHashFile.write(passwordhash)
 	os.chmod(passwordHashFilePath, 0o600)
 
 def checkPassword(password):

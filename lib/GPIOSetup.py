@@ -18,9 +18,9 @@ def initialState(active_value):
 		return GPIO.LOW
 
 for room in rooms:
-	for accesory in room['Accesories']:
-		if accesory['Type'] == 'GPIO':
-			initial_state = initialState(accesory['ActiveState'])
-			GPIO.setup(accesory['Pin'],
+	for Appliance in room['Appliances']:
+		if Appliance['Type'] == 'GPIO':
+			initial_state = initialState(Appliance['ActiveState'])
+			GPIO.setup(Appliance['Pin'],
 					   GPIO.OUT, 
 					   initial= initial_state)

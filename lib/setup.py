@@ -14,6 +14,13 @@ except Exception:
 	print("config.yml file is not valid. See exampleconfig.yml for reference")
 	exit()
 
+#check for older config file
+for i, room in enumerate(rooms):
+	if 'Accesories' in room:
+		rooms[i]['Appliances'] = rooms[i]['Accesories']
+		rooms[i].pop('Accesories', None)
+		print("Use Appliances instead of Accesories in config.yml")
+
 if 'Settings' in cfg:
 	settings = cfg['Settings']
 else:
@@ -58,8 +65,8 @@ else:
 	GlobalActiveState = 1
 
 for i, room in enumerate(rooms):
-	for j, accesory in enumerate(room['Accesories']):
-		if 'Inverted' in accesory:
-			rooms[i]['Accesories'][j]['ActiveState'] = 1 - int(accesory['Inverted'])
+	for j, Appliance in enumerate(room['Appliances']):
+		if 'Inverted' in Appliance:
+			rooms[i]['Appliances'][j]['ActiveState'] = 1 - int(Appliance['Inverted'])
 		else:
-			rooms[i]['Accesories'][j]['ActiveState'] = GlobalActiveState
+			rooms[i]['Appliances'][j]['ActiveState'] = GlobalActiveState

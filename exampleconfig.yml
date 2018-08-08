@@ -1,7 +1,7 @@
 ---
 Rooms:
   - Name: Bed Room
-    Accesories:
+    Appliances:
       - Name: Fan
         Type: GPIO
         Pin: 18
@@ -15,7 +15,7 @@ Rooms:
         Type: GPIO
         Pin: 22
   - Name: Garage
-    Accesories:
+    Appliances:
       - Name: Light
         Type: GPIO
         Pin: 23
@@ -24,7 +24,7 @@ Rooms:
         Pin: 24
         Duration: 2
   - Name: Scripts
-    Accesories:
+    Appliances:
       - Name: Internet
         Type: Script
         Status: ping -c 1 8.8.8.8 > /dev/null

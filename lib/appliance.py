@@ -2,7 +2,7 @@ import subprocess, time
 from lib.GPIOSetup import GPIO
 from lib.setup import settings
 
-class accesoryObject:
+class ApplianceObject:
 	attributes = {}
 	name = ""
 	type = ""
@@ -34,7 +34,7 @@ class accesoryObject:
 			else:
 				return 0
 		else:
-			#get the state of other accesories in other rooms
+			#get the state of other Appliances in other rooms
 			#not properly implemented yet
 			returnCode = subprocess.call([self.status_cmd], shell=True)
 			if returnCode == 0:

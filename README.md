@@ -7,7 +7,7 @@ To setup make sure you have flask installed
     sudo pip3 install setuptools wheel
     sudo pip3 install flask pyyaml
 
-Clone the repo and create a config file named config.yml in the repo folder. Define pin numbers, in BCM format, grouped into "Rooms" and "Accesories" in config.yml. See exampleconfig.yml for reference
+Clone the repo and create a config file named config.yml in the repo folder. Define pin numbers, in BCM format, grouped into "Rooms" and "Appliances" in config.yml. See exampleconfig.yml for reference
 
     git clone https://github.com/ThisIsQasim/WebGPIO
     cd WebGPIO

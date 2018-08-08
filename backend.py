@@ -3,16 +3,16 @@ from flask import Flask, render_template, request, redirect, Markup, make_respon
 from lib.cors import crossdomain
 from lib.setup import rooms, settings
 from lib.GPIOSetup import GPIO
-from lib.accesory import accesoryObject
+from lib.appliance import ApplianceObject
 from lib import authentication
 app = Flask(__name__)
 
 
 def updateStates(rooms):
 	for i, room in enumerate(rooms):
-		for j, accesory in enumerate(room['Accesories']):
-			current_accesory = accesoryObject(accesory)
-			rooms[i]['Accesories'][j]['State'] = current_accesory.getState()
+		for j, Appliance in enumerate(room['Appliances']):
+			current_Appliance = ApplianceObject(Appliance)
+			rooms[i]['Appliances'][j]['State'] = current_Appliance.getState()
 	return rooms
 
 @app.context_processor
@@ -47,14 +47,14 @@ def grid():
 @authentication.login_required
 @crossdomain(origin='*')
 def button(roomNumber, accNumber):
-	current_accesory = accesoryObject(rooms[roomNumber]['Accesories'][accNumber])
-	current_accesory.executeAction()
+	current_Appliance = ApplianceObject(rooms[roomNumber]['Appliances'][accNumber])
+	current_Appliance.executeAction()
 	templateData = {
 		'title' : 'WebGPIO',
-		'state' : current_accesory.getState(),
+		'state' : current_Appliance.getState(),
 		'roomNumber' : roomNumber,
 		'accNumber' : accNumber,
-		'name' : current_accesory.name
+		'name' : current_Appliance.name
 	}
 	return render_template('button.html', **templateData)
 
