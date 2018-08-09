@@ -3,6 +3,7 @@
 RPi
 config.yml
 passwordhash
+worker.py
 __pycache__
 
 # OS generated files #
