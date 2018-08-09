@@ -2,10 +2,7 @@ import subprocess, time
 from lib.GPIOSetup import GPIO
 from lib.setup import settings
 
-class ApplianceObject:
-	attributes = {}
-	name = ""
-	type = ""
+class Appliance:
 
 	def __init__(self, attributes):
 		self.attributes = attributes
