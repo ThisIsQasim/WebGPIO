@@ -4,6 +4,7 @@ body {
 	padding-bottom: 6rem;
 	min-height: 100%;
 	font-family: HelveticaNeue-UltraLight, Arial, sans-serif;
+	background-color:#000000;
 }
 div {
 	display: inline-block;

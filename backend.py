@@ -22,7 +22,7 @@ def inject_enumerate():
 
 @app.route("/")
 @authentication.login_required
-def main():
+def home():
 	now = datetime.datetime.now()
 	timeString = now.strftime("%Y-%m-%d %I:%M %p")
 	templateData = {
@@ -31,7 +31,7 @@ def main():
 		'rooms' : updateStates(rooms),
 		'refresh_rate' : settings['RefreshRate']*1000
 	}
-	return render_template('main.html', **templateData)
+	return render_template('home.html', **templateData)
 
 @app.route("/grid/")
 @authentication.login_required
@@ -43,17 +43,17 @@ def grid():
 	}
 	return render_template('grid.html', **templateData)
 
-@app.route("/button/<int:roomNumber>/<int:accNumber>/")
+@app.route("/button/<int:room_index>/<int:appliance_index>/")
 @authentication.login_required
 @crossdomain(origin='*')
-def button(roomNumber, accNumber):
-	appliance = Appliance(rooms[roomNumber]['Appliances'][accNumber])
+def button(room_index, appliance_index):
+	appliance = Appliance(rooms[room_index]['Appliances'][appliance_index])
 	appliance.executeAction()
 	templateData = {
 		'title' : 'WebGPIO',
 		'state' : appliance.getState(),
-		'roomNumber' : roomNumber,
-		'accNumber' : accNumber,
+		'room_index' : room_index,
+		'appliance_index' : appliance_index,
 		'name' : appliance.name
 	}
 	return render_template('button.html', **templateData)
@@ -69,7 +69,7 @@ def auth():
 		token = authentication.generateToken(password)
 		if token:
 			expiry_date = datetime.datetime.now() + datetime.timedelta(days=30)
-			response = make_response(redirect(url_for('.main')))
+			response = make_response(redirect(url_for('home')))
 			response.set_cookie('token', token, expires=expiry_date)
 			return response
 	return redirect(url_for('.login'))
