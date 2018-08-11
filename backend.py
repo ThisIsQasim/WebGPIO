@@ -69,7 +69,7 @@ def auth():
 		token = authentication.generateToken(password)
 		if token:
 			expiry_date = datetime.datetime.now() + datetime.timedelta(days=30)
-			response = make_response(redirect(url_for('home')))
+			response = make_response(redirect(url_for('.home')))
 			response.set_cookie('token', token, expires=expiry_date)
 			return response
 	return redirect(url_for('.login'))
