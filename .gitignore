@@ -4,6 +4,7 @@ RPi
 config.yml
 passwordhash
 worker.py
+board.py
 __pycache__
 
 # OS generated files #
