@@ -70,7 +70,7 @@ def auth():
 		if token:
 			expiry_date = datetime.datetime.now() + datetime.timedelta(days=30)
 			response = make_response(redirect(url_for('.home')))
-			response.set_cookie('token', token, expires=expiry_date, secure=True, httponly=True, samesite='Lax')
+			response.set_cookie('token', token, expires=expiry_date, httponly=True, samesite='Lax')
 			return response
 	return redirect(url_for('.login'))
 
@@ -78,7 +78,7 @@ def auth():
 def logout():
 	authentication.removeToken()
 	response = make_response(redirect(url_for('.login')))
-	response.set_cookie('token', '', expires=0, secure=True, httponly=True, samesite='Lax')
+	response.set_cookie('token', '', expires=0, httponly=True, samesite='Lax')
 	return response
 
 if __name__ == "__main__":
